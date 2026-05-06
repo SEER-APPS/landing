@@ -1,10 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
+import { MobileMenu } from "@/components/landing/MobileMenu";
 
 const navLinkClass =
   "inline-flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-lg px-3 text-sm font-medium text-muted transition-colors hover:bg-brand-soft/40 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
 
 export function SiteHeader() {
+  const items = [
+    { href: "/#download", label: "Download" },
+    { href: "/contact", label: "Contact" },
+    { href: "/privacy", label: "Privacy" },
+    { href: "/terms", label: "Terms" },
+  ];
+
   return (
     <header className="border-b border-border/70 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/65">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
@@ -26,8 +34,10 @@ export function SiteHeader() {
               Seer
             </span>
           </Link>
-          <nav aria-label="Primary">
-            <ul className="-mx-4 flex gap-1 overflow-x-auto overscroll-x-contain px-4 pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:justify-end sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden">
+          <div className="flex items-center justify-between gap-3">
+            <MobileMenu items={items} />
+            <nav aria-label="Primary" className="hidden sm:block">
+              <ul className="flex flex-wrap items-center justify-end gap-1">
               <li>
                 <Link href="/#download" className={navLinkClass}>
                   Download
@@ -48,8 +58,9 @@ export function SiteHeader() {
                   Terms
                 </Link>
               </li>
-            </ul>
-          </nav>
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
     </header>

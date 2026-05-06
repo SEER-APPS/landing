@@ -3,7 +3,7 @@ export default function Home() {
     <>
       <section className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 px-4 py-10 sm:gap-10 sm:px-6 sm:py-14 md:grid-cols-2 md:items-center md:py-20">
         <article className="min-w-0 space-y-5 sm:space-y-6">
-          <p className="inline-flex w-fit max-w-full items-center rounded-full bg-brand-soft px-3 py-1.5 text-xs font-semibold text-foreground">
+          <p className="inline-flex w-fit max-w-full items-center rounded-full bg-brand-soft px-3 py-1.5 text-xs font-semibold text-black">
             Built for fast, secure communication
           </p>
           <h1 className="text-balance text-3xl font-semibold leading-[1.15] tracking-tight sm:text-4xl md:text-5xl md:leading-tight">
@@ -22,22 +22,32 @@ export default function Home() {
             <a
               href="#"
               aria-disabled="true"
-              className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl bg-foreground px-5 py-3 text-center text-sm font-semibold text-background opacity-70 sm:w-auto"
+              className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-foreground px-5 py-3 text-center text-sm font-semibold text-background opacity-70 sm:w-auto"
             >
-              Download on the App Store
+              <span className="inline-flex h-5 w-5 items-center justify-center">
+                <img
+                  src="/apple-mark.svg"
+                  alt=""
+                  className="h-5 w-5 text-background"
+                />
+              </span>
+              App Store
             </a>
             <a
               href="#"
               aria-disabled="true"
-              className="inline-flex min-h-12 w-full items-center justify-center rounded-2xl border border-border px-5 py-3 text-center text-sm font-semibold opacity-70 sm:w-auto"
+              className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl border border-border px-5 py-3 text-center text-sm font-semibold opacity-70 sm:w-auto"
             >
-              Get it on Google Play
+              <span className="inline-flex h-5 w-5 items-center justify-center">
+                <img
+                  src="/google-play-mark.svg"
+                  alt=""
+                  className="h-5 w-5 text-foreground"
+                />
+              </span>
+              Play Store
             </a>
           </div>
-
-          <p className="text-xs text-muted">
-            Store links will be added after launch.
-          </p>
         </article>
 
         <aside className="min-w-0 rounded-2xl border border-border bg-surface p-4 sm:rounded-3xl sm:p-6">
@@ -75,6 +85,49 @@ export default function Home() {
             </div>
           </div>
         </aside>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl px-4 pb-12 sm:px-6 md:pb-16">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:items-center">
+          <article className="min-w-0">
+            <h2 className="text-balance text-2xl font-semibold tracking-tight sm:text-3xl">
+              Protect yourself and loved ones when you&apos;re on the go.
+            </h2>
+            <p className="mt-3 max-w-prose text-pretty text-sm leading-relaxed text-muted sm:text-base">
+              Share a “Safe trip” location bubble with a trusted contact for up to
+              24 hours. If anything feels off, they can open your shared
+              location instantly and check in—without hunting through multiple
+              apps.
+            </p>
+            <ul className="mt-5 space-y-2 text-sm text-muted sm:text-base">
+              <li>
+                <span className="font-medium text-foreground">Trusted contacts</span>{" "}
+                can track your shared location.
+              </li>
+              <li>
+                <span className="font-medium text-foreground">Clear alerts</span>{" "}
+                that are easy to understand in an emergency.
+              </li>
+              <li>
+                <span className="font-medium text-foreground">Privacy-first</span>{" "}
+                by default—share only when you choose.
+              </li>
+            </ul>
+          </article>
+
+          <aside className="min-w-0">
+            <div className="overflow-hidden rounded-3xl border border-border bg-surface">
+              <div className="bg-gradient-to-b from-brand-soft/70 to-background p-4 sm:p-6">
+                <img
+                  src="/location-device.png"
+                  alt="Seer shared location bubble preview on a phone"
+                  className="h-auto w-full rounded-2xl border border-border/60 shadow-sm"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </aside>
+        </div>
       </section>
 
       <section className="mx-auto w-full max-w-6xl px-4 pb-12 sm:px-6 sm:pb-16">

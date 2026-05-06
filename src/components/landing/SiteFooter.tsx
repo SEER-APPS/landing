@@ -40,6 +40,26 @@ export function SiteFooter() {
             </ul>
           </section>
           <section>
+            <h2 className="text-sm font-semibold text-foreground">Services</h2>
+            <ul className="mt-3 flex flex-col gap-2">
+              <li>
+                <span className="text-sm text-muted">Airtime top-ups</span>
+              </li>
+              <li>
+                <span className="text-sm text-muted">Data bundles</span>
+              </li>
+              <li>
+                <span className="text-sm text-muted">Utilities (ECG, Ghana Water)</span>
+              </li>
+              <li>
+                <span className="text-sm text-muted">TV (DSTV, GOtv, Startimes)</span>
+              </li>
+              <li>
+                <span className="text-sm text-muted">Safe trip location sharing</span>
+              </li>
+            </ul>
+          </section>
+          <section>
             <h2 className="text-sm font-semibold text-foreground">Support</h2>
             <ul className="mt-3 flex flex-col gap-2">
               <li>
@@ -51,7 +71,7 @@ export function SiteFooter() {
           </section>
         </nav>
         <p className="mt-8 border-t border-border pt-6 text-sm text-muted">
-          © {year} Seer. Available soon on iOS and Android.
+          © {year} Seer.
         </p>
       </div>
     </footer>
