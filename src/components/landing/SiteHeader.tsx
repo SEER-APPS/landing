@@ -7,14 +7,14 @@ const navLinkClass =
 
 export function SiteHeader() {
   const items = [
-    { href: "/#download", label: "Download" },
+    { href: "/download", label: "Download" },
     { href: "/contact", label: "Contact" },
     { href: "/privacy", label: "Privacy" },
     { href: "/terms", label: "Terms" },
   ];
 
   return (
-    <header className="border-b border-border/70 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/65">
+    <header className="relative z-[120] border-b border-border/70 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/65">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
         <div className="flex items-center justify-between gap-4 py-3 sm:py-4">
           <Link
@@ -38,7 +38,7 @@ export function SiteHeader() {
           <nav aria-label="Primary" className="hidden sm:block">
             <ul className="flex flex-wrap items-center justify-end gap-1">
               <li>
-                <Link href="/#download" className={navLinkClass}>
+                <Link href="/download" className={navLinkClass}>
                   Download
                 </Link>
               </li>

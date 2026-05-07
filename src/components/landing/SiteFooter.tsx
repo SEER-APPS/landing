@@ -1,7 +1,12 @@
 import Link from "next/link";
+import { StoreBadgeLink } from "@/components/landing/StoreBadgeLink";
+import { APP_STORE_URL, PLAY_STORE_URL } from "@/constants/storeLinks";
 
 const footerLinkClass =
   "text-sm text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline";
+
+const socialRowLinkClass =
+  "text-xs font-medium text-muted underline-offset-4 transition-colors hover:text-foreground hover:underline";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -13,11 +18,63 @@ export function SiteFooter() {
           className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between"
           aria-label="Footer"
         >
-          <section>
+          <section className="max-w-sm">
             <h2 className="text-sm font-semibold text-foreground">Seer</h2>
             <p className="mt-2 max-w-xs text-sm text-muted">
               Secure messaging and everyday services in one app.
             </p>
+            <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
+              <span className="text-xs font-semibold uppercase tracking-wide text-muted">
+                Connect
+              </span>
+              <ul className="flex flex-wrap items-center gap-x-2 gap-y-1" aria-label="Social links">
+                <li>
+                  <a href="#" className={socialRowLinkClass}>
+                    WhatsApp
+                  </a>
+                </li>
+                <li className="text-muted" aria-hidden>
+                  ·
+                </li>
+                <li>
+                  <a href="#" className={socialRowLinkClass}>
+                    Instagram
+                  </a>
+                </li>
+                <li className="text-muted" aria-hidden>
+                  ·
+                </li>
+                <li>
+                  <a href="#" className={socialRowLinkClass}>
+                    X
+                  </a>
+                </li>
+                <li className="text-muted" aria-hidden>
+                  ·
+                </li>
+                <li>
+                  <a href="#" className={socialRowLinkClass}>
+                    LinkedIn
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+              <StoreBadgeLink
+                store="apple"
+                href={APP_STORE_URL}
+                compact
+                aria-disabled={APP_STORE_URL === "#"}
+                className={`max-w-full sm:max-w-[11.5rem] ${APP_STORE_URL === "#" ? "opacity-70" : ""}`}
+              />
+              <StoreBadgeLink
+                store="google"
+                href={PLAY_STORE_URL}
+                compact
+                aria-disabled={PLAY_STORE_URL === "#"}
+                className={`max-w-full sm:max-w-[11.5rem] ${PLAY_STORE_URL === "#" ? "opacity-70" : ""}`}
+              />
+            </div>
           </section>
           <section>
             <h2 className="text-sm font-semibold text-foreground">Legal</h2>

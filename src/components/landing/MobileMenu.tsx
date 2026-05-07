@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 type MenuItem = { href: string; label: string };
 
@@ -13,11 +14,14 @@ const panelLinkClass =
 
 export function MobileMenu({ items }: { items: MenuItem[] }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const close = useCallback(() => setIsOpen(false), []);
   const toggle = useCallback(() => setIsOpen((v) => !v), []);
 
-  const firstItemHref = useMemo(() => items[0]?.href ?? "/", [items]);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -27,6 +31,49 @@ export function MobileMenu({ items }: { items: MenuItem[] }) {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [close, isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen]);
+
+  const overlay =
+    mounted && isOpen ? (
+      <>
+        <div
+          className="fixed inset-0 z-[100] touch-manipulation bg-background/70 backdrop-blur-sm"
+          role="presentation"
+          onPointerDown={(e) => {
+            if (e.target === e.currentTarget) close();
+          }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) close();
+          }}
+        />
+        <aside
+          id="mobile-nav-panel"
+          className="fixed right-4 top-[4.5rem] z-[101] w-[min(92vw,22rem)] rounded-2xl border border-border bg-background p-2 shadow-xl"
+          role="dialog"
+          aria-label="Navigation"
+        >
+          <nav aria-label="Mobile">
+            <ul className="flex flex-col">
+              {items.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className={panelLinkClass} onClick={close}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+      </>
+    ) : null;
 
   return (
     <div className="sm:hidden">
@@ -44,44 +91,7 @@ export function MobileMenu({ items }: { items: MenuItem[] }) {
           <span className="h-0.5 w-full rounded-full bg-foreground" />
         </span>
       </button>
-
-      {isOpen ? (
-        <div
-          className="fixed inset-0 z-50 bg-background/70 backdrop-blur-sm"
-          role="presentation"
-          onClick={close}
-        >
-          <aside
-            id="mobile-nav-panel"
-            className="absolute right-4 top-16 w-[min(92vw,22rem)] rounded-2xl border border-border bg-background p-2 shadow-xl"
-            role="dialog"
-            aria-label="Navigation"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <nav aria-label="Mobile">
-              <ul className="flex flex-col">
-                {items.map((item) => (
-                  <li key={item.href}>
-                    <Link href={item.href} className={panelLinkClass} onClick={close}>
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-            <div className="mt-1 px-4 pb-2">
-              <Link
-                href={firstItemHref}
-                onClick={close}
-                className="text-xs text-muted underline-offset-4 hover:text-foreground hover:underline"
-              >
-                Back
-              </Link>
-            </div>
-          </aside>
-        </div>
-      ) : null}
+      {overlay ? createPortal(overlay, document.body) : null}
     </div>
   );
 }
-

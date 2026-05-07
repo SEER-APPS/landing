@@ -1,3 +1,6 @@
+import { StoreBadgeLink } from "@/components/landing/StoreBadgeLink";
+import { APP_STORE_URL, PLAY_STORE_URL } from "@/constants/storeLinks";
+
 export default function Home() {
   return (
     <>
@@ -19,34 +22,18 @@ export default function Home() {
             id="download"
             className="flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row"
           >
-            <a
-              href="#"
-              aria-disabled="true"
-              className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-foreground px-5 py-3 text-center text-sm font-semibold text-background opacity-70 sm:w-auto"
-            >
-              <span className="inline-flex h-5 w-5 items-center justify-center">
-                <img
-                  src="/apple-mark.svg"
-                  alt=""
-                  className="h-5 w-5 text-background"
-                />
-              </span>
-              App Store
-            </a>
-            <a
-              href="#"
-              aria-disabled="true"
-              className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl border border-border px-5 py-3 text-center text-sm font-semibold opacity-70 sm:w-auto"
-            >
-              <span className="inline-flex h-5 w-5 items-center justify-center">
-                <img
-                  src="/google-play-mark.svg"
-                  alt=""
-                  className="h-5 w-5 text-foreground"
-                />
-              </span>
-              Play Store
-            </a>
+            <StoreBadgeLink
+              store="apple"
+              href={APP_STORE_URL}
+              aria-disabled={APP_STORE_URL === "#"}
+              className={APP_STORE_URL === "#" ? "opacity-70" : ""}
+            />
+            <StoreBadgeLink
+              store="google"
+              href={PLAY_STORE_URL}
+              aria-disabled={PLAY_STORE_URL === "#"}
+              className={PLAY_STORE_URL === "#" ? "opacity-70" : ""}
+            />
           </div>
         </article>
 
