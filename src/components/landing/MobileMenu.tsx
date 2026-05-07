@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 type MenuItem = { href: string; label: string };
 
 const menuButtonClass =
-  "inline-flex min-h-11 items-center justify-center rounded-lg border border-border bg-surface px-3 text-sm font-semibold text-foreground transition-colors hover:bg-brand-soft/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
+  "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-border bg-surface text-foreground transition-colors hover:bg-brand-soft/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
 
 const panelLinkClass =
   "inline-flex min-h-11 w-full items-center rounded-xl px-4 text-sm font-semibold text-foreground hover:bg-brand-soft/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
@@ -38,7 +38,11 @@ export function MobileMenu({ items }: { items: MenuItem[] }) {
         aria-controls="mobile-nav-panel"
         onClick={toggle}
       >
-        Menu
+        <span className="flex w-5 flex-col gap-1.5" aria-hidden>
+          <span className="h-0.5 w-full rounded-full bg-foreground" />
+          <span className="h-0.5 w-full rounded-full bg-foreground" />
+          <span className="h-0.5 w-full rounded-full bg-foreground" />
+        </span>
       </button>
 
       {isOpen ? (

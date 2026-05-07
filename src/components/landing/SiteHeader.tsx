@@ -16,7 +16,7 @@ export function SiteHeader() {
   return (
     <header className="border-b border-border/70 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/65">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-        <div className="flex flex-col gap-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-4">
+        <div className="flex items-center justify-between gap-4 py-3 sm:py-4">
           <Link
             href="/"
             aria-label="Seer home"
@@ -34,10 +34,9 @@ export function SiteHeader() {
               Seer
             </span>
           </Link>
-          <div className="flex items-center justify-between gap-3">
-            <MobileMenu items={items} />
-            <nav aria-label="Primary" className="hidden sm:block">
-              <ul className="flex flex-wrap items-center justify-end gap-1">
+          <MobileMenu items={items} />
+          <nav aria-label="Primary" className="hidden sm:block">
+            <ul className="flex flex-wrap items-center justify-end gap-1">
               <li>
                 <Link href="/#download" className={navLinkClass}>
                   Download
@@ -58,9 +57,8 @@ export function SiteHeader() {
                   Terms
                 </Link>
               </li>
-              </ul>
-            </nav>
-          </div>
+            </ul>
+          </nav>
         </div>
       </div>
     </header>

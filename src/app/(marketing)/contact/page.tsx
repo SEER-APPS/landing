@@ -3,7 +3,7 @@ import { ContactForm } from "@/components/landing/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact | Seer",
-  description: "Reach the Seer team at seermessenger.com for support and partnerships.",
+  description: "Reach the Seer team for support and partnerships.",
 };
 
 export default function ContactPage() {
@@ -14,8 +14,7 @@ export default function ContactPage() {
           Contact us
         </h1>
         <p className="mt-3 max-w-prose text-sm text-muted md:text-base">
-          Questions about Seer, partnerships, or support? Use the form below. We are at{" "}
-          <span className="font-medium text-foreground">seermessenger.com</span>.
+          Questions about Seer, partnerships, or support? Use the form below.
         </p>
       </header>
 

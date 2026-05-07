@@ -165,7 +165,7 @@ export function ContactForm() {
               maxLength={5000}
               value={message}
               onChange={(ev) => setMessage(ev.target.value)}
-              className={`${inputClass} min-h-32 resize-y`}
+              className={`${inputClass} min-h-32 resize-none`}
             />
           </p>
         </div>
@@ -185,7 +185,7 @@ export function ContactForm() {
           />
         </div>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-8 flex justify-end">
           <button
             type="submit"
             disabled={status === "submitting"}
@@ -193,15 +193,16 @@ export function ContactForm() {
           >
             {status === "submitting" ? "Sending…" : "Send message"}
           </button>
-          <p className="text-xs text-muted">
-            By sending, you agree we may email you about this request. See our{" "}
-            <a href="/privacy" className="font-medium text-brand underline underline-offset-2">
-              privacy policy
-            </a>
-            .
-          </p>
         </div>
       </form>
+
+      <p className="mt-3 max-w-prose text-xs text-muted sm:mt-4">
+        By sending, you agree we may email you about this request. See our{" "}
+        <a href="/privacy" className="font-medium text-brand underline underline-offset-2">
+          privacy policy
+        </a>
+        .
+      </p>
     </section>
   );
 }
