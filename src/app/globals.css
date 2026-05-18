@@ -31,6 +31,27 @@
   }
 }
 
+/* Manual theme override (instant toggle) */
+:root[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #000000;
+  --surface: #ffffff;
+  --muted: #757575;
+  --border: #e8e8e8;
+  --brand: #0b84ff;
+  --brand_soft: #e6f4fe;
+}
+
+:root[data-theme="dark"] {
+  --background: #000000;
+  --foreground: #ffffff;
+  --surface: #111111;
+  --muted: #c9c9c9;
+  --border: #242424;
+  --brand: #0b84ff;
+  --brand_soft: #0a1a2a;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

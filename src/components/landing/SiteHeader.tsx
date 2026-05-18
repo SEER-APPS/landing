@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MobileMenu } from "@/components/landing/MobileMenu";
+import { ThemeToggle } from "@/components/landing/ThemeToggle";
 
 const navLinkClass =
   "inline-flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-lg px-3 text-sm font-medium text-muted transition-colors hover:bg-brand-soft/40 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
@@ -8,9 +9,8 @@ const navLinkClass =
 export function SiteHeader() {
   const items = [
     { href: "/download", label: "Download" },
+    { href: "/services", label: "Services" },
     { href: "/contact", label: "Contact" },
-    { href: "/privacy", label: "Privacy" },
-    { href: "/terms", label: "Terms" },
   ];
 
   return (
@@ -43,19 +43,17 @@ export function SiteHeader() {
                 </Link>
               </li>
               <li>
+                <Link href="/services" className={navLinkClass}>
+                  Services
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className={navLinkClass}>
                   Contact
                 </Link>
               </li>
-              <li>
-                <Link href="/privacy" className={navLinkClass}>
-                  Privacy
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className={navLinkClass}>
-                  Terms
-                </Link>
+              <li className="pl-1">
+                <ThemeToggle />
               </li>
             </ul>
           </nav>

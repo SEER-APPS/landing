@@ -24,6 +24,9 @@ export const metadata: Metadata = {
     template: "%s | Seer",
   },
   description: "Secure messaging and everyday services in one app.",
+  icons: {
+    icon: [{ url: "/logo.png", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({
