@@ -4,10 +4,26 @@ import { useCallback, useState } from "react";
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
-export function ContactForm() {
+type RequestFormProps = {
+  type: string;
+  subtype: string;
+  title: string;
+  description?: string;
+  showPhone?: boolean;
+  extraFields?: React.ReactNode;
+};
+
+export function RequestForm({
+  type,
+  subtype,
+  title,
+  description,
+  showPhone = true,
+  extraFields,
+}: RequestFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
+  const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [company, setCompany] = useState("");
   const [status, setStatus] = useState<FormStatus>("idle");
@@ -16,7 +32,7 @@ export function ContactForm() {
   const reset = useCallback(() => {
     setName("");
     setEmail("");
-    setSubject("");
+    setPhone("");
     setMessage("");
     setCompany("");
   }, []);
@@ -28,13 +44,15 @@ export function ContactForm() {
       setFeedback(null);
 
       try {
-        const res = await fetch("/api/contact", {
+        const res = await fetch("/api/requests", {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify({
+            type,
+            subtype,
             name,
             email,
-            subject,
+            phone: showPhone ? phone : undefined,
             message,
             company,
           }),
@@ -55,7 +73,7 @@ export function ContactForm() {
         setFeedback(
           typeof data.message === "string" && data.message.length > 0
             ? data.message
-            : "Thank you. We have received your message.",
+            : "Thank you. We have received your request.",
         );
         reset();
       } catch {
@@ -63,23 +81,26 @@ export function ContactForm() {
         setFeedback("We could not reach the server. Check your connection and try again.");
       }
     },
-    [company, email, message, name, reset, subject],
+    [company, email, message, name, phone, reset, showPhone, subtype, type],
   );
 
   const inputClass =
-    "mt-1.5 w-full min-h-11 rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none transition-colors placeholder:text-muted focus:border-brand focus:ring-2 focus:ring-brand/25";
+    "mt-1.5 w-full min-h-11 rounded-xl border border-border bg-background px-3 py-2 text-sm text-foreground shadow-sm outline-none transition-colors placeholder:text-muted focus:border-foreground focus:ring-2 focus:ring-foreground/15";
 
   const labelClass = "text-sm font-medium text-foreground";
 
   return (
-    <section className="mt-10" aria-labelledby="contact-form-heading">
-      <h2 id="contact-form-heading" className="sr-only">
-        Send a message
+    <section className="mt-8" aria-labelledby="request-form-heading">
+      <h2 id="request-form-heading" className="text-xl font-semibold tracking-tight">
+        {title}
       </h2>
+      {description ? (
+        <p className="mt-2 max-w-prose text-sm leading-relaxed text-muted">{description}</p>
+      ) : null}
 
       {status === "success" && feedback ? (
         <output
-          className="mb-6 block rounded-2xl border border-border bg-brand-soft/50 px-4 py-3 text-sm text-foreground"
+          className="mb-6 mt-6 block rounded-2xl border border-border bg-brand-soft/50 px-4 py-3 text-sm text-foreground"
           aria-live="polite"
         >
           {feedback}
@@ -88,7 +109,7 @@ export function ContactForm() {
 
       {status === "error" && feedback ? (
         <output
-          className="mb-6 block rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-foreground"
+          className="mb-6 mt-6 block rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-foreground"
           role="alert"
           aria-live="assertive"
         >
@@ -98,76 +119,71 @@ export function ContactForm() {
 
       <form
         onSubmit={onSubmit}
-        className="relative rounded-2xl border border-border bg-surface p-6 sm:p-8"
+        className="mt-6 rounded-2xl border border-border bg-surface p-6 sm:rounded-3xl sm:p-8"
         noValidate
       >
-        <p className="text-sm text-muted">
-          Messages are delivered securely from this site to our team. We usually reply within{" "}
-          <span className="font-medium text-foreground">24–48 hours</span>.
-        </p>
-
-        <div className="mt-6 grid gap-5 sm:grid-cols-2">
-          <p className="sm:col-span-2">
-            <label htmlFor="contact-name" className={labelClass}>
-              Name
+        <div className="grid gap-5 sm:grid-cols-2">
+          <div className="sm:col-span-1">
+            <label htmlFor="request-name" className={labelClass}>
+              Full name
             </label>
             <input
-              id="contact-name"
+              id="request-name"
               name="name"
               type="text"
               autoComplete="name"
               required
-              maxLength={120}
               value={name}
               onChange={(ev) => setName(ev.target.value)}
               className={inputClass}
             />
-          </p>
-          <p className="sm:col-span-2">
-            <label htmlFor="contact-email" className={labelClass}>
+          </div>
+          <div className="sm:col-span-1">
+            <label htmlFor="request-email" className={labelClass}>
               Email
             </label>
             <input
-              id="contact-email"
+              id="request-email"
               name="email"
               type="email"
               autoComplete="email"
               required
-              maxLength={255}
               value={email}
               onChange={(ev) => setEmail(ev.target.value)}
               className={inputClass}
             />
-          </p>
-          <p className="sm:col-span-2">
-            <label htmlFor="contact-subject" className={labelClass}>
-              Subject <span className="font-normal text-muted">(optional)</span>
-            </label>
-            <input
-              id="contact-subject"
-              name="subject"
-              type="text"
-              maxLength={200}
-              value={subject}
-              onChange={(ev) => setSubject(ev.target.value)}
-              className={inputClass}
-            />
-          </p>
-          <p className="sm:col-span-2">
-            <label htmlFor="contact-message" className={labelClass}>
-              Message
+          </div>
+          {showPhone ? (
+            <div className="sm:col-span-2">
+              <label htmlFor="request-phone" className={labelClass}>
+                Phone number (optional)
+              </label>
+              <input
+                id="request-phone"
+                name="phone"
+                type="tel"
+                autoComplete="tel"
+                value={phone}
+                onChange={(ev) => setPhone(ev.target.value)}
+                className={inputClass}
+              />
+            </div>
+          ) : null}
+          {extraFields}
+          <div className="sm:col-span-2">
+            <label htmlFor="request-message" className={labelClass}>
+              Details
             </label>
             <textarea
-              id="contact-message"
+              id="request-message"
               name="message"
               required
-              rows={6}
-              maxLength={5000}
+              rows={5}
               value={message}
               onChange={(ev) => setMessage(ev.target.value)}
-              className={`${inputClass} min-h-32 resize-none`}
+              className={`${inputClass} min-h-[8rem] resize-y`}
             />
-          </p>
+          </div>
         </div>
 
         <div
@@ -175,7 +191,7 @@ export function ContactForm() {
           aria-hidden="true"
         >
           <input
-            id="contact-company"
+            id="request-company"
             name="company"
             type="text"
             tabIndex={-1}
@@ -191,18 +207,10 @@ export function ContactForm() {
             disabled={status === "submitting"}
             className="inline-flex min-h-11 items-center justify-center rounded-xl bg-[var(--cta-bg)] px-6 text-sm font-semibold text-[var(--cta-fg)] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {status === "submitting" ? "Sending…" : "Send message"}
+            {status === "submitting" ? "Submitting…" : "Submit request"}
           </button>
         </div>
       </form>
-
-      <p className="mt-3 max-w-prose text-xs text-muted sm:mt-4">
-        By sending, you agree we may email you about this request. See our{" "}
-        <a href="/privacy" className="font-medium text-brand underline underline-offset-2">
-          privacy policy
-        </a>
-        .
-      </p>
     </section>
   );
 }

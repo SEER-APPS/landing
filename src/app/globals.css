@@ -8,6 +8,8 @@
   --border: #e8e8e8;
   --brand: #0b84ff;
   --brand_soft: #e6f4fe;
+  --cta-bg: #000000;
+  --cta-fg: #ffffff;
 }
 
 @theme inline {
@@ -40,6 +42,8 @@
   --border: #e8e8e8;
   --brand: #0b84ff;
   --brand_soft: #e6f4fe;
+  --cta-bg: #000000;
+  --cta-fg: #ffffff;
 }
 
 :root[data-theme="dark"] {
@@ -50,6 +54,8 @@
   --border: #242424;
   --brand: #0b84ff;
   --brand_soft: #0a1a2a;
+  --cta-bg: #ffffff;
+  --cta-fg: #000000;
 }
 
 body {

@@ -100,19 +100,34 @@ export function SiteFooter() {
             <h2 className="text-sm font-semibold text-foreground">Services</h2>
             <ul className="mt-3 flex flex-col gap-2">
               <li>
-                <span className="text-sm text-muted">Airtime top-ups</span>
+                <Link href="/services#airtime" className={footerLinkClass}>
+                  Airtime top-ups
+                </Link>
               </li>
               <li>
-                <span className="text-sm text-muted">Data bundles</span>
+                <Link href="/services#data" className={footerLinkClass}>
+                  Data bundles
+                </Link>
               </li>
               <li>
-                <span className="text-sm text-muted">Utilities (ECG, Ghana Water)</span>
+                <Link href="/services#electricity" className={footerLinkClass}>
+                  Electricity (ECG)
+                </Link>
               </li>
               <li>
-                <span className="text-sm text-muted">TV (DSTV, GOtv, Startimes)</span>
+                <Link href="/services#water" className={footerLinkClass}>
+                  Water (Ghana Water)
+                </Link>
               </li>
               <li>
-                <span className="text-sm text-muted">Safe trip location sharing</span>
+                <Link href="/services#tv" className={footerLinkClass}>
+                  TV (DSTV, GOtv, Startimes)
+                </Link>
+              </li>
+              <li>
+                <Link href="/services#messaging" className={footerLinkClass}>
+                  Safe trip location sharing
+                </Link>
               </li>
             </ul>
           </section>
@@ -122,6 +137,11 @@ export function SiteFooter() {
               <li>
                 <Link href="/contact" className={footerLinkClass}>
                   Contact us
+                </Link>
+              </li>
+              <li>
+                <Link href="/requests" className={footerLinkClass}>
+                  Requests
                 </Link>
               </li>
             </ul>

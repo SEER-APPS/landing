@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 type ServiceBlock = {
+  id: string;
   title: string;
   description: string;
   imageSrc: string;
@@ -9,6 +10,7 @@ type ServiceBlock = {
 
 const services: ServiceBlock[] = [
   {
+    id: "messaging",
     title: "Secure messaging & protection",
     description:
       "End‑to‑end private chats, safer contact handling, and built‑in protection tooling for high‑signal communication.",
@@ -16,6 +18,7 @@ const services: ServiceBlock[] = [
     imageAlt: "Shielded communication illustration",
   },
   {
+    id: "airtime",
     title: "Airtime top‑ups",
     description:
       "Buy airtime quickly and keep receipts in one place—designed for fast checkout and clear status updates.",
@@ -23,6 +26,7 @@ const services: ServiceBlock[] = [
     imageAlt: "Airtime service illustration",
   },
   {
+    id: "data",
     title: "Data bundles",
     description:
       "Browse bundles, confirm pricing, and purchase with fewer steps—no guessing, no clutter.",
@@ -30,11 +34,28 @@ const services: ServiceBlock[] = [
     imageAlt: "Data bundles illustration",
   },
   {
-    title: "Utilities & TV payments",
+    id: "electricity",
+    title: "Electricity",
     description:
-      "Pay essentials with a clean flow: query, confirm, checkout, and track completion from the same screen.",
+      "Pay ECG bills with a clean flow: query your meter, confirm the amount, checkout, and track completion from the same screen.",
     imageSrc: "/next.svg",
-    imageAlt: "Utilities and TV illustration",
+    imageAlt: "Electricity payments illustration",
+  },
+  {
+    id: "water",
+    title: "Water",
+    description:
+      "Settle Ghana Water bills quickly—look up your account, review charges, and pay without switching apps.",
+    imageSrc: "/vercel.svg",
+    imageAlt: "Water bill payments illustration",
+  },
+  {
+    id: "tv",
+    title: "TV payments",
+    description:
+      "Renew DSTV, GOtv, and Startimes subscriptions in one place with clear pricing and payment status.",
+    imageSrc: "/next.svg",
+    imageAlt: "TV subscription payments illustration",
   },
 ];
 
@@ -46,7 +67,7 @@ function ServiceRow({
   reverse: boolean;
 }) {
   return (
-    <section className="py-10 sm:py-14">
+    <section id={service.id} className="scroll-mt-24 py-10 sm:py-14">
       <div
         className={[
           "mx-auto grid w-full max-w-6xl items-center gap-8 px-4 sm:px-6 md:grid-cols-2",
@@ -92,7 +113,7 @@ export default function ServicesPage() {
 
       {services.map((service, idx) => (
         <ServiceRow
-          key={service.title}
+          key={service.id}
           service={service}
           reverse={idx % 2 === 1}
         />
@@ -100,4 +121,3 @@ export default function ServicesPage() {
     </article>
   );
 }
-
