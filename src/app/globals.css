@@ -103,4 +103,69 @@ body {
     animation: none;
     transition: none;
   }
+
+  .house-mansion {
+    transition: none !important;
+  }
+}
+
+/* Electricity service — night mansion lights */
+.house-night-scene {
+  background: #05070d;
+  min-height: 280px;
+}
+
+.house-night-sky {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(40, 55, 95, 0.45), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 70% 20%, rgba(30, 45, 90, 0.35), transparent 55%),
+    linear-gradient(180deg, #0a1020 0%, #05070d 55%, #020308 100%);
+}
+
+.house-stars {
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 28% 12%, rgba(255, 255, 255, 0.45), transparent),
+    radial-gradient(1.5px 1.5px at 45% 22%, rgba(255, 255, 255, 0.65), transparent),
+    radial-gradient(1px 1px at 62% 8%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 78% 16%, rgba(255, 255, 255, 0.55), transparent),
+    radial-gradient(1.5px 1.5px at 88% 28%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 18% 40%, rgba(255, 255, 255, 0.35), transparent),
+    radial-gradient(1px 1px at 55% 35%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 72% 42%, rgba(255, 255, 255, 0.45), transparent);
+  opacity: 0.85;
+  animation: house-stars-twinkle 5s ease-in-out infinite;
+}
+
+@keyframes house-stars-twinkle {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.house-mansion--on {
+  filter: brightness(1.05) saturate(1.08) drop-shadow(0 0 28px rgba(255, 180, 70, 0.35));
+}
+
+.house-mansion--off {
+  filter: brightness(0.28) saturate(0.15) contrast(1.05);
+}
+
+.house-window-glow {
+  background: radial-gradient(
+    ellipse 70% 55% at 55% 60%,
+    rgba(255, 190, 80, 0.22),
+    transparent 70%
+  );
+  mix-blend-mode: screen;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .house-stars {
+    animation: none;
+  }
 }

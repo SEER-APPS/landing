@@ -22,10 +22,10 @@ export function FeatureBand({
   cta,
 }: FeatureBandProps) {
   return (
-    <section className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16 md:py-20">
+    <section className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-12 md:py-14">
       <div
         className={[
-          "grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-12 lg:gap-16",
+          "grid grid-cols-1 items-center gap-6 md:grid-cols-2 md:gap-10 lg:gap-12",
           reverse ? "md:[&>aside]:order-first" : "",
         ].join(" ")}
       >
@@ -37,17 +37,17 @@ export function FeatureBand({
           ) : null}
           <h2
             className={[
-              "text-balance text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl",
+              "text-balance text-2xl font-semibold tracking-tight sm:text-3xl",
               eyebrow ? "mt-3" : "",
             ].join(" ")}
           >
             {title}
           </h2>
-          <p className="mt-4 max-w-prose text-pretty text-sm leading-relaxed text-muted sm:text-base">
+          <p className="mt-3 max-w-prose text-pretty text-sm leading-relaxed text-muted sm:text-base">
             {body}
           </p>
           {points?.length ? (
-            <ul className="mt-5 space-y-2.5 text-sm text-muted sm:text-base">
+            <ul className="mt-4 space-y-2 text-sm text-muted sm:text-[15px]">
               {points.map((point) => (
                 <li key={point} className="flex gap-2.5">
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
@@ -59,7 +59,7 @@ export function FeatureBand({
           {cta ? (
             <Link
               href={cta.href}
-              className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-brand transition-opacity hover:opacity-80"
+              className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-brand transition-opacity hover:opacity-80"
             >
               {cta.label}
               <span aria-hidden>›</span>
@@ -67,12 +67,12 @@ export function FeatureBand({
           ) : null}
         </article>
 
-        <aside className="min-w-0">
-          <div className="overflow-hidden rounded-[1.75rem] border border-border bg-surface shadow-sm sm:rounded-[2rem]">
+        <aside className="mx-auto w-full min-w-0 max-w-[280px] sm:max-w-[320px] md:max-w-[340px]">
+          <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm sm:rounded-[1.35rem]">
             <img
               src={imageSrc}
               alt={imageAlt}
-              className="h-auto w-full"
+              className="mx-auto h-auto max-h-[420px] w-full object-contain object-top"
               loading="lazy"
             />
           </div>

@@ -1,11 +1,16 @@
 import Image from "next/image";
+import Link from "next/link";
+
+import { HouseLightsScene } from "@/components/landing/HouseLightsScene";
 
 type ServiceBlock = {
   id: string;
   title: string;
   description: string;
-  imageSrc: string;
-  imageAlt: string;
+  points?: string[];
+  imageSrc?: string;
+  imageAlt?: string;
+  visual: "image" | "house";
 };
 
 const services: ServiceBlock[] = [
@@ -13,51 +18,80 @@ const services: ServiceBlock[] = [
     id: "messaging",
     title: "Secure messaging & protection",
     description:
-      "End‑to‑end private chats, safer contact handling, and built‑in protection tooling for high‑signal communication.",
-    imageSrc: "/globe.svg",
-    imageAlt: "Shielded communication illustration",
+      "Private chats, safer contact handling, and protection tooling for high-signal communication—plus quick actions when someone asks for airtime in the thread.",
+    points: ["End-to-end protected conversations", "Quick actions in chat", "Trusted contacts"],
+    visual: "image",
+    imageSrc: "/marketing/pay-in-chat.jpg",
+    imageAlt: "Seer chat with quick actions for airtime and utilities",
   },
   {
     id: "airtime",
-    title: "Airtime top‑ups",
+    title: "Airtime top-ups",
     description:
-      "Buy airtime quickly and keep receipts in one place—designed for fast checkout and clear status updates.",
-    imageSrc: "/file.svg",
-    imageAlt: "Airtime service illustration",
+      "Buy airtime across supported networks with a clear flow and receipts that stay easy to find.",
+    points: ["MTN", "AirtelTigo", "Telecel"],
+    visual: "image",
+    imageSrc: "/marketing/networks.jpg",
+    imageAlt: "Seer network picker for airtime top-ups",
   },
   {
     id: "data",
     title: "Data bundles",
     description:
-      "Browse bundles, confirm pricing, and purchase with fewer steps—no guessing, no clutter.",
-    imageSrc: "/window.svg",
-    imageAlt: "Data bundles illustration",
+      "Browse bundles, confirm pricing, and purchase with fewer steps—affordable options without the clutter.",
+    points: ["Flexible sizes", "Quick top-ups", "Clear pricing"],
+    visual: "image",
+    imageSrc: "/marketing/bundles.jpg",
+    imageAlt: "Seer data bundle list",
   },
   {
     id: "electricity",
     title: "Electricity",
     description:
-      "Pay ECG bills with a clean flow: query your meter, confirm the amount, checkout, and track completion from the same screen.",
-    imageSrc: "/next.svg",
-    imageAlt: "Electricity payments illustration",
+      "Keep the lights on. Pay ECG prepaid credit with a clean flow: pick your meter, confirm the amount, checkout, and track completion from the same place.",
+    points: ["Saved house & office meters", "Fast prepaid credit", "Clear payment status"],
+    visual: "house",
   },
   {
     id: "water",
     title: "Water",
     description:
       "Settle Ghana Water bills quickly—look up your account, review charges, and pay without switching apps.",
-    imageSrc: "/vercel.svg",
-    imageAlt: "Water bill payments illustration",
+    points: ["Account lookup", "Clear charges", "One-place checkout"],
+    visual: "image",
+    imageSrc: "/marketing/prepaid-meters.jpg",
+    imageAlt: "Seer prepaid meter cards used for utility purchases",
   },
   {
     id: "tv",
     title: "TV payments",
     description:
       "Renew DSTV, GOtv, and Startimes subscriptions in one place with clear pricing and payment status.",
-    imageSrc: "/next.svg",
-    imageAlt: "TV subscription payments illustration",
+    points: ["DSTV", "GOtv", "Startimes"],
+    visual: "image",
+    imageSrc: "/marketing/services-duo.jpg",
+    imageAlt: "Seer services hub for everyday purchases",
   },
 ];
+
+function ServiceVisual({ service }: { service: ServiceBlock }) {
+  if (service.visual === "house") {
+    return <HouseLightsScene />;
+  }
+
+  return (
+    <div className="overflow-hidden rounded-[1.75rem] border border-border bg-surface shadow-sm sm:rounded-[2rem]">
+      <Image
+        src={service.imageSrc!}
+        alt={service.imageAlt!}
+        width={900}
+        height={1100}
+        className="h-auto w-full"
+        sizes="(max-width: 768px) 100vw, 540px"
+      />
+    </div>
+  );
+}
 
 function ServiceRow({
   service,
@@ -67,10 +101,10 @@ function ServiceRow({
   reverse: boolean;
 }) {
   return (
-    <section id={service.id} className="scroll-mt-24 py-10 sm:py-14">
+    <section id={service.id} className="scroll-mt-24 py-12 sm:py-16">
       <div
         className={[
-          "mx-auto grid w-full max-w-6xl items-center gap-8 px-4 sm:px-6 md:grid-cols-2",
+          "mx-auto grid w-full max-w-6xl items-center gap-8 px-4 sm:px-6 md:grid-cols-2 md:gap-12",
           reverse ? "md:[&>*:first-child]:order-2" : "",
         ].join(" ")}
       >
@@ -81,17 +115,27 @@ function ServiceRow({
           <p className="mt-3 max-w-prose text-pretty text-base leading-relaxed text-muted sm:text-lg">
             {service.description}
           </p>
+          {service.points?.length ? (
+            <ul className="mt-5 space-y-2 text-sm text-muted sm:text-base">
+              {service.points.map((point) => (
+                <li key={point} className="flex gap-2.5">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {service.id === "electricity" ? (
+            <p className="mt-5 text-sm text-muted">
+              Prefer meters in the app?{" "}
+              <Link href="/download" className="font-medium text-brand underline-offset-4 hover:underline">
+                Download Seer
+              </Link>
+            </p>
+          ) : null}
         </div>
-        <div className="min-w-0 rounded-2xl border border-border bg-surface p-6 sm:rounded-3xl">
-          <div className="bg-brand-soft/40 flex items-center justify-center rounded-2xl p-6">
-            <Image
-              src={service.imageSrc}
-              alt={service.imageAlt}
-              width={520}
-              height={360}
-              className="h-48 w-auto sm:h-56"
-            />
-          </div>
+        <div className="min-w-0">
+          <ServiceVisual service={service} />
         </div>
       </div>
     </section>
@@ -102,20 +146,23 @@ export default function ServicesPage() {
   return (
     <article className="bg-background text-foreground">
       <header className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-        <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-          Services
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
+          Everyday essentials
+        </p>
+        <h1 className="mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+          Services that keep life running
         </h1>
-        <p className="mt-3 max-w-prose text-pretty text-base leading-relaxed text-muted sm:text-lg">
-          A secure core, plus everyday services that are simple to use and easy to
-          track.
+        <p className="mt-4 max-w-prose text-pretty text-base leading-relaxed text-muted sm:text-lg">
+          Messaging at the core—plus airtime, data, electricity, water, and TV
+          payments in one calm experience.
         </p>
       </header>
 
-      {services.map((service, idx) => (
+      {services.map((service, index) => (
         <ServiceRow
           key={service.id}
           service={service}
-          reverse={idx % 2 === 1}
+          reverse={index % 2 === 1}
         />
       ))}
     </article>
