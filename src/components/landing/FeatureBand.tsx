@@ -13,10 +13,10 @@ type FeatureBandProps = {
 
 /** Shared marketing mockup sizing — homepage + services. */
 export const marketingImageFrameClass =
-  "mx-auto w-full min-w-0 max-w-[300px] sm:max-w-[340px] md:max-w-[360px]";
+  "mx-auto w-full min-w-0 max-w-[340px] sm:max-w-[380px] md:max-w-[420px]";
 
 export const marketingImageClass =
-  "mx-auto h-auto max-h-[460px] w-full object-contain object-top";
+  "mx-auto h-auto max-h-[520px] w-full object-contain object-top";
 
 export function FeatureBand({
   eyebrow,

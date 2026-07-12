@@ -34,42 +34,26 @@ export function WaterFlowScene() {
 
   return (
     <div
-      className="water-flow-scene relative mx-auto w-full max-w-[300px] overflow-hidden rounded-[1.75rem] border border-border sm:max-w-[340px] sm:rounded-[2rem] md:max-w-[360px]"
+      className="relative mx-auto w-full max-w-[340px] overflow-hidden rounded-[1.75rem] border border-border sm:max-w-[380px] sm:rounded-[2rem] md:max-w-[420px]"
       aria-label={waterOn ? "Faucet with water running" : "Faucet with water off"}
     >
       <div className="relative aspect-square bg-[#152238]">
         <img
-          src="/water-faucet-on.jpg"
+          src="/water-faucet-off.jpg"
           alt="Kitchen faucet over a sink"
+          className="absolute inset-0 h-full w-full object-cover"
+          draggable={false}
+        />
+        <img
+          src="/water-faucet-on.jpg"
+          alt=""
+          aria-hidden
           className={[
-            "h-full w-full object-cover transition-[filter,opacity] duration-500 ease-in-out",
-            waterOn ? "opacity-100" : "opacity-95 brightness-[0.92]",
+            "absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-in-out",
+            waterOn ? "opacity-100" : "opacity-0",
           ].join(" ")}
           draggable={false}
         />
-
-        {/* Covers the photo’s stream so “off” reads as dry */}
-        <div
-          className={[
-            "pointer-events-none absolute transition-opacity duration-500 ease-in-out",
-            waterOn ? "opacity-0" : "opacity-100",
-          ].join(" ")}
-          style={{
-            left: "46%",
-            top: "34%",
-            width: "8%",
-            height: "36%",
-            background:
-              "linear-gradient(180deg, rgba(21,34,56,0.15) 0%, #152238 18%, #152238 100%)",
-            borderRadius: "999px",
-            filter: "blur(1px)",
-          }}
-          aria-hidden
-        />
-
-        {waterOn ? (
-          <div className="water-stream-shimmer pointer-events-none absolute" aria-hidden />
-        ) : null}
 
         <div className="absolute bottom-4 left-4 z-10">
           <span

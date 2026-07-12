@@ -49,11 +49,11 @@ export default function Home() {
             </div>
           </article>
 
-          <aside className="landing-fade-up landing-fade-up-delay-2 relative mx-auto w-full max-w-[260px] sm:max-w-[300px] md:max-w-[320px]">
+          <aside className="landing-fade-up landing-fade-up-delay-2 relative mx-auto w-full max-w-[300px] sm:max-w-[340px] md:max-w-[380px]">
             <img
               src="/marketing/splash-hero.jpg"
               alt="Seer app splash screen on a phone"
-              className="mx-auto h-auto max-h-[400px] w-full object-contain object-top"
+              className="mx-auto h-auto max-h-[460px] w-full object-contain object-top"
               loading="eager"
             />
           </aside>
@@ -166,7 +166,7 @@ export default function Home() {
           <img
             src="/marketing/services-everything.jpg"
             alt="Everything in one place — Seer services including bills, prepaid, and data"
-            className="mx-auto h-auto max-h-[480px] w-full object-contain object-top"
+            className="mx-auto h-auto max-h-[540px] w-full object-contain object-top"
             loading="lazy"
           />
         </div>

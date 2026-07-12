@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 const TOKEN = "84729156304821736590";
 const DIGIT_MS = 90;
+const COMPLETE_HOLD_MS = 1000;
 const GOOD_HOLD_MS = 700;
 const LIGHTS_ON_MS = 3400;
 const POWER_OFF_TO_LIGHTS_OFF_MS = 200;
@@ -50,6 +51,11 @@ export function HouseLightsScene() {
           setTypedCount(digitIndex);
           await wait(DIGIT_MS);
         }
+
+        if (cancelled) {
+          return;
+        }
+        await wait(COMPLETE_HOLD_MS);
 
         if (cancelled) {
           return;
@@ -125,7 +131,7 @@ export function HouseLightsScene() {
           />
         </div>
 
-        <div className="relative w-full max-w-[220px] sm:max-w-[250px]">
+        <div className="relative w-full max-w-[220px] self-start sm:max-w-[250px]">
           <img
             src="/meter-input.png"
             alt="Prepaid electricity meter keypad"
@@ -133,48 +139,27 @@ export function HouseLightsScene() {
             draggable={false}
           />
           <div
-            className="pointer-events-none absolute flex items-center justify-center overflow-hidden rounded-[0.35rem] bg-[#dfe6df]"
+            className="pointer-events-none absolute flex items-center justify-center overflow-hidden bg-transparent"
             style={{
-              left: "7.8%",
-              top: "8.2%",
-              width: "46.5%",
-              height: "17.8%",
+              left: "8.2%",
+              top: "10.5%",
+              width: "45.5%",
+              height: "15.5%",
             }}
             aria-live="polite"
           >
             <span
               className={[
-                "px-1 text-center font-mono leading-none tracking-tight text-[#1a1f1a]",
+                "whitespace-nowrap px-0.5 text-center font-mono leading-none tracking-tight text-[#1a1f1a]",
                 displayText === "good" || displayText === "power off"
-                  ? "text-[11px] font-semibold sm:text-xs"
-                  : "text-[8px] sm:text-[9px]",
+                  ? "text-[10px] font-semibold sm:text-[11px]"
+                  : "text-[6.5px] sm:text-[7px]",
               ].join(" ")}
             >
               {displayText}
             </span>
           </div>
         </div>
-      </div>
-
-      <div className="absolute bottom-4 left-4 z-20 sm:bottom-5 sm:left-5">
-        <span
-          className={[
-            "inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-medium backdrop-blur-sm transition-colors duration-500",
-            lightsOn
-              ? "border-amber-300/30 bg-amber-400/15 text-amber-100"
-              : "border-white/15 bg-black/40 text-white/70",
-          ].join(" ")}
-        >
-          <span
-            className={[
-              "h-1.5 w-1.5 rounded-full transition-colors duration-500",
-              lightsOn
-                ? "bg-amber-300 shadow-[0_0_8px_rgba(252,211,77,0.9)]"
-                : "bg-white/40",
-            ].join(" ")}
-          />
-          {lightsOn ? "Power on" : "Power off"}
-        </span>
       </div>
     </div>
   );
