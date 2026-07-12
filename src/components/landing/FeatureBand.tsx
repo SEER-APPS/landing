@@ -9,14 +9,23 @@ type FeatureBandProps = {
   reverse?: boolean;
   points?: string[];
   cta?: { href: string; label: string };
+  /** Homepage-only larger mockups (+30%). Services keep default. */
+  imageSize?: "default" | "home";
 };
 
-/** Shared marketing mockup sizing — homepage + services. */
+/** Shared marketing mockup sizing — services + default bands. */
 export const marketingImageFrameClass =
   "mx-auto w-full min-w-0 max-w-[340px] sm:max-w-[380px] md:max-w-[420px]";
 
 export const marketingImageClass =
   "mx-auto h-auto max-h-[520px] w-full object-contain object-top";
+
+/** Homepage mockups — ~30% larger than shared default. */
+export const homeMarketingImageFrameClass =
+  "mx-auto w-full min-w-0 max-w-[442px] sm:max-w-[494px] md:max-w-[546px]";
+
+export const homeMarketingImageClass =
+  "mx-auto h-auto max-h-[676px] w-full object-contain object-top";
 
 export function FeatureBand({
   eyebrow,
@@ -27,7 +36,13 @@ export function FeatureBand({
   reverse = false,
   points,
   cta,
+  imageSize = "default",
 }: FeatureBandProps) {
+  const frameClass =
+    imageSize === "home" ? homeMarketingImageFrameClass : marketingImageFrameClass;
+  const imageClass =
+    imageSize === "home" ? homeMarketingImageClass : marketingImageClass;
+
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-12 md:py-14">
       <div
@@ -74,11 +89,11 @@ export function FeatureBand({
           ) : null}
         </article>
 
-        <aside className={`landing-fade-up landing-fade-up-delay-2 ${marketingImageFrameClass}`}>
+        <aside className={`landing-fade-up landing-fade-up-delay-2 ${frameClass}`}>
           <img
             src={imageSrc}
             alt={imageAlt}
-            className={marketingImageClass}
+            className={imageClass}
             loading="lazy"
           />
         </aside>

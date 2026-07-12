@@ -108,11 +108,11 @@ function ServiceRow({
     <section id={service.id} className="scroll-mt-24 py-10 sm:py-14">
       <div
         className={[
-          "mx-auto grid w-full max-w-6xl items-center gap-6 px-4 sm:px-6 md:grid-cols-2 md:gap-10",
+          "mx-auto grid w-full max-w-6xl items-start gap-6 px-4 sm:px-6 md:grid-cols-2 md:gap-10",
           reverse ? "md:[&>*:first-child]:order-2" : "",
         ].join(" ")}
       >
-        <div className="landing-fade-up min-w-0">
+        <div className="landing-fade-up min-w-0 md:pt-[30%]">
           <h2 className="text-balance text-2xl font-semibold tracking-tight sm:text-3xl">
             {service.title}
           </h2>

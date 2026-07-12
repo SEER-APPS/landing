@@ -112,7 +112,7 @@ export function HouseLightsScene() {
       <div className="relative z-10 flex flex-col items-center gap-5 px-4 pb-6 pt-8 sm:gap-6 sm:px-6 sm:pb-8 sm:pt-10">
         <div
           className={[
-            "house-mansion relative w-full max-w-xl transition-[filter,opacity] duration-500 ease-in-out sm:max-w-2xl",
+            "house-mansion relative w-full max-w-xl origin-top translate-y-[10%] scale-[1.2] transition-[filter,opacity] duration-500 ease-in-out sm:max-w-2xl",
             lightsOn ? "house-mansion--on" : "house-mansion--off",
           ].join(" ")}
         >

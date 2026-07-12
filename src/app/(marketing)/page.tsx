@@ -49,11 +49,11 @@ export default function Home() {
             </div>
           </article>
 
-          <aside className="landing-fade-up landing-fade-up-delay-2 relative mx-auto w-full max-w-[300px] sm:max-w-[340px] md:max-w-[380px]">
+          <aside className="landing-fade-up landing-fade-up-delay-2 relative mx-auto w-full max-w-[390px] sm:max-w-[442px] md:max-w-[494px]">
             <img
               src="/marketing/splash-hero.jpg"
               alt="Seer app splash screen on a phone"
-              className="mx-auto h-auto max-h-[460px] w-full object-contain object-top"
+              className="mx-auto h-auto max-h-[598px] w-full object-contain object-top"
               loading="eager"
             />
           </aside>
@@ -67,6 +67,7 @@ export default function Home() {
         body="Advanced monitoring and trusted contacts keep you ready when it matters—so you can focus on the people in your life."
         imageSrc="/marketing/protection-active.jpg"
         imageAlt="Seer home screen showing Protection Active and monitoring status"
+        imageSize="home"
         points={[
           "Protection status you can see at a glance",
           "Trusted contacts for emergencies",
@@ -82,6 +83,7 @@ export default function Home() {
         body="Send money, buy airtime, pay bills, and stay protected—without jumping between apps."
         imageSrc="/marketing/home-protection-dark.jpg"
         imageAlt="Seer home dashboard with protection and trusted contacts"
+        imageSize="home"
         reverse
       />
 
@@ -92,6 +94,7 @@ export default function Home() {
         body="Access airtime, data, utilities, and quick actions inside the conversation—right where the request came from."
         imageSrc="/marketing/pay-in-chat.jpg"
         imageAlt="Seer chat with quick actions for airtime, data, and utilities"
+        imageSize="home"
         points={[
           "Buy airtime and data without leaving the thread",
           "Pay utilities from quick actions",
@@ -106,6 +109,7 @@ export default function Home() {
         body="Complete essential purchases quickly with an experience built for convenience across Ghana."
         imageSrc="/marketing/services-duo.jpg"
         imageAlt="Seer services list and network selection screens"
+        imageSize="home"
         reverse
         points={[
           "Prepaid credit and utility bills",
@@ -122,6 +126,7 @@ export default function Home() {
         body="Purchase airtime and data across supported mobile carriers with a clear, familiar flow."
         imageSrc="/marketing/networks.jpg"
         imageAlt="Seer network picker showing MTN, AirtelTigo, and Telecel"
+        imageSize="home"
         points={["MTN", "AirtelTigo", "Telecel"]}
       />
 
@@ -132,6 +137,7 @@ export default function Home() {
         body="Affordable options, quick top-ups, and multiple bundle choices—picked for how people actually use data."
         imageSrc="/marketing/bundles.jpg"
         imageAlt="Seer MTN data bundle list"
+        imageSize="home"
         reverse
       />
 
@@ -142,6 +148,7 @@ export default function Home() {
         body="Buy prepaid credit with saved meters and a smooth, secure checkout—built for home and work."
         imageSrc="/marketing/prepaid-meters.jpg"
         imageAlt="Seer prepaid credit screen with house and office meters"
+        imageSize="home"
         cta={{ href: "/services#electricity", label: "Learn about prepaid" }}
       />
 
@@ -152,6 +159,7 @@ export default function Home() {
         body="Share a Safe trip location bubble with a trusted contact for up to 24 hours. If anything feels off, they can open your shared location instantly."
         imageSrc="/location-device.png"
         imageAlt="Seer shared location bubble preview on a phone"
+        imageSize="home"
         reverse
         points={[
           "Trusted contacts can follow your shared location",
@@ -162,11 +170,11 @@ export default function Home() {
 
       {/* Everything list — Screenshot 3 as services closer */}
       <section className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="mx-auto max-w-xl sm:max-w-2xl">
+        <div className="mx-auto max-w-xl sm:max-w-2xl md:max-w-3xl">
           <img
             src="/marketing/services-everything.jpg"
             alt="Everything in one place — Seer services including bills, prepaid, and data"
-            className="mx-auto h-auto max-h-[540px] w-full object-contain object-top"
+            className="mx-auto h-auto max-h-[702px] w-full object-contain object-top"
             loading="lazy"
           />
         </div>

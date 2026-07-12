@@ -55,7 +55,7 @@ export function WaterFlowScene() {
           draggable={false}
         />
 
-        <div className="absolute bottom-4 left-4 z-10">
+        <div className="absolute bottom-4 right-4 z-10">
           <span
             className={[
               "inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-medium backdrop-blur-sm transition-colors duration-500",
