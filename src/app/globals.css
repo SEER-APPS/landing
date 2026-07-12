@@ -66,3 +66,41 @@ body {
   color: var(--foreground);
   overflow-x: hidden;
 }
+
+@keyframes security-bubble-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.security-bubble-enter {
+  animation: security-bubble-enter 0.55s ease-out both;
+}
+
+.security-help-row:hover {
+  background: var(--surface);
+  border-color: color-mix(in srgb, var(--brand) 35%, var(--border));
+}
+
+.security-control-card {
+  transition: transform 0.25s ease;
+}
+
+@media (hover: hover) {
+  .security-control-card:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .security-bubble-enter,
+  .security-control-card {
+    animation: none;
+    transition: none;
+  }
+}

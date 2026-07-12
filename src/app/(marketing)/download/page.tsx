@@ -80,8 +80,8 @@ export default function DownloadPage() {
         <div className="mt-10 border-t border-border pt-8 md:mt-12 md:pt-10">
           <figure className="mx-auto max-w-md">
             <Image
-              src="/location-device.png"
-              alt="Seer app preview on a phone"
+              src="/marketing/splash-hero.jpg"
+              alt="Seer app splash screen on a phone"
               width={800}
               height={1200}
               className="h-auto w-full rounded-2xl border border-border/60 shadow-sm"

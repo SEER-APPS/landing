@@ -9,6 +9,7 @@ export function SiteHeader() {
   const items = [
     { href: "/download", label: "Download" },
     { href: "/services", label: "Services" },
+    { href: "/security", label: "Security" },
     { href: "/contact", label: "Contact" },
   ];
 
@@ -36,21 +37,13 @@ export function SiteHeader() {
           <MobileMenu items={items} />
           <nav aria-label="Primary" className="hidden sm:block">
             <ul className="flex flex-wrap items-center justify-end gap-1">
-              <li>
-                <Link href="/download" className={navLinkClass}>
-                  Download
-                </Link>
-              </li>
-              <li>
-                <Link href="/services" className={navLinkClass}>
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className={navLinkClass}>
-                  Contact
-                </Link>
-              </li>
+              {items.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className={navLinkClass}>
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>

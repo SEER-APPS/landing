@@ -1,0 +1,163 @@
+import { SeerPhoneFrame } from "./SeerPhoneFrame";
+
+export function MockEncryptionScreen() {
+  return (
+    <SeerPhoneFrame>
+      <div className="space-y-3">
+        <div className="flex items-center gap-2.5 border-b border-border pb-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-soft text-brand">
+            <LockIcon />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-foreground">Mum</p>
+            <p className="text-[11px] text-muted">End-to-end protected</p>
+          </div>
+        </div>
+        <div className="mx-auto max-w-[220px] rounded-2xl border border-border bg-surface px-3 py-2.5 text-center">
+          <p className="text-[11px] leading-relaxed text-muted">
+            Messages and calls are end-to-end protected. Only you and Mum can
+            read them.
+          </p>
+        </div>
+        <div className="ml-auto max-w-[70%] rounded-2xl rounded-br-md bg-[#0B84FF] px-3 py-2 text-xs text-white">
+          Sharing the safety checklist now
+          <div className="mt-1 text-right text-[9px] text-white/75">9:41 ✓✓</div>
+        </div>
+      </div>
+    </SeerPhoneFrame>
+  );
+}
+
+export function MockMediaTimersScreen() {
+  return (
+    <SeerPhoneFrame>
+      <div className="space-y-3">
+        <p className="text-center text-xs font-semibold text-foreground">
+          Private media
+        </p>
+        <div className="overflow-hidden rounded-2xl border border-border bg-surface">
+          {[
+            { label: "View once", detail: "Disappears after opening", active: true },
+            { label: "24 hours", detail: "Expires a day after send", active: false },
+            { label: "Keep in chat", detail: "No timer", active: false },
+          ].map((option) => (
+            <div
+              key={option.label}
+              className="flex items-center gap-3 border-b border-border px-3 py-2.5 last:border-b-0"
+            >
+              <span
+                className={[
+                  "flex h-4 w-4 items-center justify-center rounded-full border",
+                  option.active
+                    ? "border-brand bg-brand"
+                    : "border-muted bg-transparent",
+                ].join(" ")}
+              >
+                {option.active ? (
+                  <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                ) : null}
+              </span>
+              <div className="min-w-0">
+                <p className="text-xs font-medium text-foreground">{option.label}</p>
+                <p className="text-[10px] text-muted">{option.detail}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </SeerPhoneFrame>
+  );
+}
+
+export function MockReportBlockScreen() {
+  return (
+    <SeerPhoneFrame>
+      <div className="relative space-y-3">
+        <div className="max-w-[75%] rounded-2xl rounded-bl-md bg-[#F2F2F2] px-3 py-2 text-xs text-black dark:bg-[#4A4A4A] dark:text-white">
+          Click this link to claim your prize…
+          <div className="mt-1 text-right text-[9px] text-black/45 dark:text-white/55">
+            14:02
+          </div>
+        </div>
+        <div className="absolute right-1 top-8 w-[58%] overflow-hidden rounded-xl border border-border bg-surface shadow-lg">
+          {["Copy", "Report", "Block"].map((action) => (
+            <div
+              key={action}
+              className={[
+                "border-b border-border px-3 py-2 text-xs last:border-b-0",
+                action === "Report" || action === "Block"
+                  ? "font-medium text-red-500"
+                  : "text-foreground",
+              ].join(" ")}
+            >
+              {action}
+            </div>
+          ))}
+        </div>
+        <div className="h-16" />
+      </div>
+    </SeerPhoneFrame>
+  );
+}
+
+export function MockOfficialAppScreen() {
+  return (
+    <SeerPhoneFrame>
+      <div className="space-y-3">
+        <div className="flex gap-2 overflow-x-auto text-[10px] text-muted">
+          {["All", "Unread", "Favorites"].map((filter, index) => (
+            <span
+              key={filter}
+              className={[
+                "rounded-full px-2.5 py-1",
+                index === 0
+                  ? "bg-brand text-white"
+                  : "bg-surface text-muted ring-1 ring-border",
+              ].join(" ")}
+            >
+              {filter}
+            </span>
+          ))}
+        </div>
+        <div className="rounded-2xl border border-border bg-surface p-3">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-soft text-sm font-semibold text-brand">
+              S
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold text-foreground">Seer</p>
+              <p className="truncate text-[10px] text-muted">
+                Get the official app from the App Store or Play Store
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="rounded-xl border border-dashed border-border bg-brand-soft/40 px-3 py-2 text-center text-[10px] text-muted">
+          Always download Seer from official stores
+        </div>
+      </div>
+    </SeerPhoneFrame>
+  );
+}
+
+function LockIcon() {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" className="h-4 w-4" fill="none">
+      <path
+        d="M7 11V8a5 5 0 0 1 10 0v3"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <rect
+        x="5"
+        y="11"
+        width="14"
+        height="10"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
