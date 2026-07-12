@@ -91,25 +91,25 @@ export function SecurityHero({ content }: SecurityHeroProps) {
         {outgoing ? (
           <HeroBubbleLayer
             bubble={outgoing}
-            className="security-bubble-enter absolute right-1 top-[8%] z-10 w-[min(78%,240px)] sm:right-0 sm:top-[6%] md:-right-2"
+            className="security-bubble-enter absolute right-1 top-[4%] z-10 w-[min(78%,240px)] sm:right-0 sm:top-[3%] md:-right-2"
           />
         ) : null}
         {documentBubble ? (
           <HeroBubbleLayer
             bubble={documentBubble}
-            className="security-bubble-enter absolute right-2 top-[28%] z-10 hidden w-[min(78%,240px)] [animation-delay:120ms] sm:right-1 sm:top-[26%] sm:block md:-right-1"
+            className="security-bubble-enter absolute right-2 top-[18%] z-10 hidden w-[min(78%,240px)] [animation-delay:120ms] sm:right-1 sm:top-[16%] sm:block md:-right-1"
           />
         ) : null}
         {incoming ? (
           <HeroBubbleLayer
             bubble={incoming}
-            className="security-bubble-enter absolute left-1 bottom-[18%] z-10 w-[min(78%,240px)] [animation-delay:220ms] sm:left-0 md:-left-2"
+            className="security-bubble-enter absolute left-1 bottom-[8%] z-10 w-[min(78%,240px)] [animation-delay:220ms] sm:left-0 sm:bottom-[7%] md:-left-2"
           />
         ) : null}
         {sticker ? (
           <HeroBubbleLayer
             bubble={sticker}
-            className="security-bubble-enter absolute bottom-[6%] right-[8%] z-10 hidden [animation-delay:320ms] sm:bottom-[8%] sm:right-[6%] sm:block"
+            className="security-bubble-enter absolute bottom-[1%] right-[8%] z-10 hidden [animation-delay:320ms] sm:bottom-[2%] sm:right-[6%] sm:block"
           />
         ) : null}
       </aside>

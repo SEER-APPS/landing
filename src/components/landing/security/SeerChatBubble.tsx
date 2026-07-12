@@ -42,7 +42,7 @@ export function SeerChatBubble({
         "max-w-[240px] rounded-2xl px-3 py-2 text-sm leading-snug shadow-md",
         isOutgoing
           ? "rounded-br-md bg-[#0B84FF] text-white"
-          : "rounded-bl-md bg-[#F2F2F2] text-black dark:bg-[#4A4A4A] dark:text-white",
+          : "rounded-bl-md bg-[#4A4A4A] text-white",
         className,
       ].join(" ")}
     >
@@ -50,7 +50,7 @@ export function SeerChatBubble({
       <div
         className={[
           "mt-1 flex items-center justify-end gap-1 text-[10px]",
-          isOutgoing ? "text-white/80" : "text-black/50 dark:text-white/60",
+          isOutgoing ? "text-white/80" : "text-white/55",
         ].join(" ")}
       >
         <span>{time}</span>

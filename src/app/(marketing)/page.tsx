@@ -18,9 +18,9 @@ export default function Home() {
           className="pointer-events-none absolute -right-8 top-8 h-48 w-48 rounded-full border border-border/40 sm:h-64 sm:w-64"
         />
         <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-4 py-10 sm:gap-10 sm:px-6 sm:py-14 md:grid-cols-2 md:py-16">
-          <article className="min-w-0 space-y-5 sm:space-y-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand">
-              Seer Messenger
+          <article className="landing-fade-up min-w-0 space-y-5 sm:space-y-6">
+            <p className="inline-flex w-fit max-w-full items-center rounded-full bg-brand-soft px-3 py-1.5 text-xs font-semibold text-foreground">
+              Built for fast, secure communication
             </p>
             <h1 className="text-balance text-3xl font-semibold leading-[1.12] tracking-tight sm:text-4xl md:text-5xl">
               Fast. Secure.{" "}
@@ -49,15 +49,13 @@ export default function Home() {
             </div>
           </article>
 
-          <aside className="relative mx-auto w-full max-w-[240px] sm:max-w-[280px] md:max-w-[300px]">
-            <div className="overflow-hidden rounded-[1.5rem] border border-border bg-surface shadow-sm sm:rounded-[1.75rem]">
-              <img
-                src="/marketing/splash-hero.jpg"
-                alt="Seer app splash screen on a phone"
-                className="mx-auto h-auto max-h-[380px] w-full object-contain object-top"
-                loading="eager"
-              />
-            </div>
+          <aside className="landing-fade-up landing-fade-up-delay-2 relative mx-auto w-full max-w-[260px] sm:max-w-[300px] md:max-w-[320px]">
+            <img
+              src="/marketing/splash-hero.jpg"
+              alt="Seer app splash screen on a phone"
+              className="mx-auto h-auto max-h-[400px] w-full object-contain object-top"
+              loading="eager"
+            />
           </aside>
         </div>
       </section>
@@ -164,7 +162,7 @@ export default function Home() {
 
       {/* Everything list — Screenshot 3 as services closer */}
       <section className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
-        <div className="mx-auto max-w-xl overflow-hidden rounded-[1.5rem] border border-border bg-surface sm:max-w-2xl sm:rounded-[1.75rem]">
+        <div className="mx-auto max-w-xl sm:max-w-2xl">
           <img
             src="/marketing/services-everything.jpg"
             alt="Everything in one place — Seer services including bills, prepaid, and data"

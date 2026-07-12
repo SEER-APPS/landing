@@ -54,26 +54,37 @@ function PillarIcon({ icon }: { icon: SecurityPillar["icon"] }) {
 export function SecurityPillars({ content }: SecurityPillarsProps) {
   return (
     <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 sm:py-16 md:py-20">
-      <h2 className="mx-auto max-w-3xl text-balance text-center text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
+      <h2 className="landing-fade-up mx-auto max-w-3xl text-balance text-center text-2xl font-semibold tracking-tight sm:text-3xl md:text-4xl">
         {content.pillarsHeadlineBefore}
         <span className="text-brand">{content.pillarsHeadlineHighlight}</span>
         {content.pillarsHeadlineAfter}
       </h2>
 
       <div className="mt-12 grid gap-10 sm:grid-cols-3 sm:gap-8">
-        {content.pillars.map((pillar) => (
-          <article key={pillar.title} className="mx-auto max-w-xs text-center sm:max-w-none">
-            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center">
-              <PillarIcon icon={pillar.icon} />
-            </div>
-            <h3 className="text-lg font-semibold tracking-tight text-foreground">
-              {pillar.title}
-            </h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted sm:text-[15px]">
-              {pillar.body}
-            </p>
-          </article>
-        ))}
+        {content.pillars.map((pillar, index) => {
+          const delayClass =
+            index === 0
+              ? "landing-fade-up-delay-1"
+              : index === 1
+                ? "landing-fade-up-delay-2"
+                : "landing-fade-up-delay-3";
+          return (
+            <article
+              key={pillar.title}
+              className={`landing-fade-up ${delayClass} mx-auto max-w-xs text-center sm:max-w-none`}
+            >
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center">
+                <PillarIcon icon={pillar.icon} />
+              </div>
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                {pillar.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted sm:text-[15px]">
+                {pillar.body}
+              </p>
+            </article>
+          );
+        })}
       </div>
     </section>
   );

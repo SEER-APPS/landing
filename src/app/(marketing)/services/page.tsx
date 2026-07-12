@@ -1,7 +1,11 @@
-import Image from "next/image";
 import Link from "next/link";
 
+import {
+  marketingImageClass,
+  marketingImageFrameClass,
+} from "@/components/landing/FeatureBand";
 import { HouseLightsScene } from "@/components/landing/HouseLightsScene";
+import { WaterFlowScene } from "@/components/landing/WaterFlowScene";
 
 type ServiceBlock = {
   id: string;
@@ -10,7 +14,7 @@ type ServiceBlock = {
   points?: string[];
   imageSrc?: string;
   imageAlt?: string;
-  visual: "image" | "house";
+  visual: "image" | "house" | "water";
 };
 
 const services: ServiceBlock[] = [
@@ -58,9 +62,7 @@ const services: ServiceBlock[] = [
     description:
       "Settle Ghana Water bills quickly—look up your account, review charges, and pay without switching apps.",
     points: ["Account lookup", "Clear charges", "One-place checkout"],
-    visual: "image",
-    imageSrc: "/marketing/prepaid-meters.jpg",
-    imageAlt: "Seer prepaid meter cards used for utility purchases",
+    visual: "water",
   },
   {
     id: "tv",
@@ -79,15 +81,17 @@ function ServiceVisual({ service }: { service: ServiceBlock }) {
     return <HouseLightsScene />;
   }
 
+  if (service.visual === "water") {
+    return <WaterFlowScene />;
+  }
+
   return (
-    <div className="overflow-hidden rounded-[1.75rem] border border-border bg-surface shadow-sm sm:rounded-[2rem]">
-      <Image
+    <div className={marketingImageFrameClass}>
+      <img
         src={service.imageSrc!}
         alt={service.imageAlt!}
-        width={900}
-        height={1100}
-        className="h-auto w-full"
-        sizes="(max-width: 768px) 100vw, 540px"
+        className={marketingImageClass}
+        loading="lazy"
       />
     </div>
   );
@@ -101,14 +105,14 @@ function ServiceRow({
   reverse: boolean;
 }) {
   return (
-    <section id={service.id} className="scroll-mt-24 py-12 sm:py-16">
+    <section id={service.id} className="scroll-mt-24 py-10 sm:py-14">
       <div
         className={[
-          "mx-auto grid w-full max-w-6xl items-center gap-8 px-4 sm:px-6 md:grid-cols-2 md:gap-12",
+          "mx-auto grid w-full max-w-6xl items-center gap-6 px-4 sm:px-6 md:grid-cols-2 md:gap-10",
           reverse ? "md:[&>*:first-child]:order-2" : "",
         ].join(" ")}
       >
-        <div className="min-w-0">
+        <div className="landing-fade-up min-w-0">
           <h2 className="text-balance text-2xl font-semibold tracking-tight sm:text-3xl">
             {service.title}
           </h2>
@@ -134,7 +138,7 @@ function ServiceRow({
             </p>
           ) : null}
         </div>
-        <div className="min-w-0">
+        <div className="landing-fade-up landing-fade-up-delay-2 min-w-0">
           <ServiceVisual service={service} />
         </div>
       </div>
@@ -145,7 +149,7 @@ function ServiceRow({
 export default function ServicesPage() {
   return (
     <article className="bg-background text-foreground">
-      <header className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
+      <header className="landing-fade-up mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
           Everyday essentials
         </p>

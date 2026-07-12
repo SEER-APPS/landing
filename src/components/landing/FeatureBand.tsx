@@ -11,6 +11,13 @@ type FeatureBandProps = {
   cta?: { href: string; label: string };
 };
 
+/** Shared marketing mockup sizing — homepage + services. */
+export const marketingImageFrameClass =
+  "mx-auto w-full min-w-0 max-w-[300px] sm:max-w-[340px] md:max-w-[360px]";
+
+export const marketingImageClass =
+  "mx-auto h-auto max-h-[460px] w-full object-contain object-top";
+
 export function FeatureBand({
   eyebrow,
   title,
@@ -29,7 +36,7 @@ export function FeatureBand({
           reverse ? "md:[&>aside]:order-first" : "",
         ].join(" ")}
       >
-        <article className="min-w-0">
+        <article className="landing-fade-up min-w-0">
           {eyebrow ? (
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
               {eyebrow}
@@ -67,15 +74,13 @@ export function FeatureBand({
           ) : null}
         </article>
 
-        <aside className="mx-auto w-full min-w-0 max-w-[280px] sm:max-w-[320px] md:max-w-[340px]">
-          <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-sm sm:rounded-[1.35rem]">
-            <img
-              src={imageSrc}
-              alt={imageAlt}
-              className="mx-auto h-auto max-h-[420px] w-full object-contain object-top"
-              loading="lazy"
-            />
-          </div>
+        <aside className={`landing-fade-up landing-fade-up-delay-2 ${marketingImageFrameClass}`}>
+          <img
+            src={imageSrc}
+            alt={imageAlt}
+            className={marketingImageClass}
+            loading="lazy"
+          />
         </aside>
       </div>
     </section>

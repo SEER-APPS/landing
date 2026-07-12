@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <article className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 sm:py-12 md:py-16">
-      <header className="border-b border-border pb-8">
+      <header className="landing-fade-up border-b border-border pb-8">
         <h1 className="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
           Contact us
         </h1>
@@ -18,7 +18,9 @@ export default function ContactPage() {
         </p>
       </header>
 
-      <ContactForm />
+      <div className="landing-fade-up landing-fade-up-delay-2">
+        <ContactForm />
+      </div>
     </article>
   );
 }
