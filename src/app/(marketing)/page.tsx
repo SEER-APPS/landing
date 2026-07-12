@@ -6,7 +6,7 @@ export default function Home() {
     <>
       <section className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-8 px-4 py-10 sm:gap-10 sm:px-6 sm:py-14 md:grid-cols-2 md:items-center md:py-20">
         <article className="min-w-0 space-y-5 sm:space-y-6">
-          <p className="inline-flex w-fit max-w-full items-center rounded-full bg-brand-soft px-3 py-1.5 text-xs font-semibold text-black">
+          <p className="inline-flex w-fit max-w-full items-center rounded-full bg-brand-soft px-3 py-1.5 text-xs font-semibold text-foreground">
             Built for fast, secure communication
           </p>
           <h1 className="text-balance text-3xl font-semibold leading-[1.15] tracking-tight sm:text-4xl md:text-5xl md:leading-tight">
@@ -25,8 +25,8 @@ export default function Home() {
             <StoreBadgeLink
               store="apple"
               href={APP_STORE_URL}
-              aria-disabled={APP_STORE_URL === "#"}
-              className={APP_STORE_URL === "#" ? "opacity-70" : ""}
+              target="_blank"
+              rel="noopener noreferrer"
             />
             <StoreBadgeLink
               store="google"

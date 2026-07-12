@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Theme toggle sets data-theme on <html>; keep dark: in sync with it. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 :root {
   --background: #ffffff;
   --foreground: #000000;

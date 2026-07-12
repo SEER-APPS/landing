@@ -4,8 +4,6 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { ThemeToggle } from "@/components/landing/ThemeToggle";
-
 type MenuItem = { href: string; label: string };
 
 const menuButtonClass =
@@ -72,9 +70,6 @@ export function MobileMenu({ items }: { items: MenuItem[] }) {
                 </li>
               ))}
             </ul>
-            <div className="mt-2 border-t border-border pt-2">
-              <ThemeToggle className="w-full" />
-            </div>
           </nav>
         </aside>
       </>

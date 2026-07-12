@@ -64,8 +64,9 @@ export function SiteFooter() {
                 store="apple"
                 href={APP_STORE_URL}
                 compact
-                aria-disabled={APP_STORE_URL === "#"}
-                className={`max-w-full sm:max-w-[11.5rem] ${APP_STORE_URL === "#" ? "opacity-70" : ""}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="max-w-full sm:max-w-[11.5rem]"
               />
               <StoreBadgeLink
                 store="google"

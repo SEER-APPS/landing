@@ -50,6 +50,8 @@ export default function DownloadPage() {
             </div>
             <a
               href={APP_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-6 inline-flex min-h-11 max-w-full items-center justify-center rounded-full border border-border bg-background px-5 py-2.5 text-center text-sm font-semibold text-foreground transition-colors hover:bg-brand-soft/30"
             >
               Download on the App Store

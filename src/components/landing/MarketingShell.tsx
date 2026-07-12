@@ -1,5 +1,6 @@
 import { SiteFooter } from "@/components/landing/SiteFooter";
 import { SiteHeader } from "@/components/landing/SiteHeader";
+import { ThemeToggle } from "@/components/landing/ThemeToggle";
 
 export function MarketingShell({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
@@ -7,6 +8,7 @@ export function MarketingShell({ children }: Readonly<{ children: React.ReactNod
       <SiteHeader />
       <main className="flex-1">{children}</main>
       <SiteFooter />
+      <ThemeToggle variant="orb" />
     </div>
   );
 }

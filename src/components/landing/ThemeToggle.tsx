@@ -20,8 +20,8 @@ function applyTheme(mode: ThemeMode): void {
 function SunIcon() {
   return (
     <svg
-      width="20"
-      height="20"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -39,8 +39,8 @@ function SunIcon() {
 function MoonIcon() {
   return (
     <svg
-      width="20"
-      height="20"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -56,15 +56,47 @@ function MoonIcon() {
 
 type ThemeToggleProps = {
   className?: string;
+  /** Circular fixed control for the bottom-right corner. */
+  variant?: "button" | "orb";
 };
 
-export function ThemeToggle({ className = "" }: ThemeToggleProps) {
+export function ThemeToggle({ className = "", variant = "button" }: ThemeToggleProps) {
   const [mode, setMode] = useState<ThemeMode>(() => readPreferredTheme());
   const nextMode = useMemo<ThemeMode>(() => (mode === "dark" ? "light" : "dark"), [mode]);
 
   useEffect(() => {
     applyTheme(mode);
   }, [mode]);
+
+  const toggle = () => {
+    const next: ThemeMode = mode === "dark" ? "light" : "dark";
+    window.localStorage.setItem(STORAGE_KEY, next);
+    setMode(next);
+  };
+
+  if (variant === "orb") {
+    return (
+      <button
+        type="button"
+        aria-label={`Switch to ${nextMode} theme`}
+        className={[
+          "fixed bottom-5 right-5 z-[130] inline-flex h-14 w-14 items-center justify-center rounded-full",
+          "border border-border/80 bg-surface/90 text-foreground shadow-[0_12px_40px_rgba(0,0,0,0.18)]",
+          "backdrop-blur-md transition-transform duration-200 hover:scale-105 active:scale-95",
+          "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand",
+          "sm:bottom-6 sm:right-6",
+          className,
+        ].join(" ")}
+        onClick={toggle}
+      >
+        <span
+          className="pointer-events-none absolute inset-0 rounded-full bg-brand/15 blur-md"
+          aria-hidden
+        />
+        <span className="relative">{mode === "dark" ? <SunIcon /> : <MoonIcon />}</span>
+      </button>
+    );
+  }
 
   return (
     <button
@@ -74,11 +106,7 @@ export function ThemeToggle({ className = "" }: ThemeToggleProps) {
         "inline-flex min-h-11 shrink-0 items-center justify-center rounded-lg border border-border/70 bg-surface px-3 text-foreground transition-colors hover:bg-brand-soft/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand",
         className,
       ].join(" ")}
-      onClick={() => {
-        const next: ThemeMode = mode === "dark" ? "light" : "dark";
-        window.localStorage.setItem(STORAGE_KEY, next);
-        setMode(next);
-      }}
+      onClick={toggle}
     >
       {mode === "dark" ? <SunIcon /> : <MoonIcon />}
     </button>
