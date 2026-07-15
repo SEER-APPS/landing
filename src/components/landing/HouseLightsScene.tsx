@@ -142,7 +142,7 @@ export function HouseLightsScene() {
             draggable={false}
           />
           <div
-            className="pointer-events-none absolute flex flex-col items-center justify-center overflow-hidden bg-transparent"
+            className="pointer-events-none absolute flex flex-col items-center justify-start overflow-hidden bg-transparent pt-[40%]"
             style={{
               left: "10%",
               top: "11.5%",
@@ -157,8 +157,8 @@ export function HouseLightsScene() {
                 className={[
                   "meter-lcd-text whitespace-nowrap px-0.5 text-center leading-none tracking-wide text-[#1a2418]",
                   isStatusMessage
-                    ? "text-[9px] sm:text-[10px]"
-                    : "text-[5.5px] sm:text-[6px]",
+                    ? "text-[13px] sm:text-[15px]"
+                    : "text-[8px] sm:text-[9px]",
                 ].join(" ")}
               >
                 {line}
