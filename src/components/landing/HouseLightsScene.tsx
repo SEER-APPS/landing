@@ -142,7 +142,7 @@ export function HouseLightsScene() {
             draggable={false}
           />
           <div
-            className="pointer-events-none absolute flex flex-col items-center justify-start overflow-hidden bg-transparent pt-[40%]"
+            className="pointer-events-none absolute flex flex-col items-center justify-start overflow-hidden bg-transparent pt-[22%]"
             style={{
               left: "10%",
               top: "11.5%",
