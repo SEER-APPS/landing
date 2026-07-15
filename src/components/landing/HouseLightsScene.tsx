@@ -112,10 +112,10 @@ export function HouseLightsScene() {
       <div className="house-night-sky absolute inset-0" aria-hidden />
       <div className="house-stars absolute inset-0" aria-hidden />
 
-      <div className="relative z-10 flex flex-col items-center gap-5 px-4 pb-6 pt-8 sm:gap-6 sm:px-6 sm:pb-8 sm:pt-10">
+      <div className="relative z-10 flex flex-col items-stretch gap-0 px-4 pb-6 pt-8 sm:px-6 sm:pb-8 sm:pt-10">
         <div
           className={[
-            "house-mansion relative aspect-[5/4] w-full max-w-xl overflow-hidden transition-[filter,opacity] duration-500 ease-in-out sm:max-w-2xl",
+            "house-mansion relative mx-auto aspect-[5/4] w-full max-w-xl overflow-hidden transition-[filter,opacity] duration-500 ease-in-out sm:max-w-2xl",
             lightsOn ? "house-mansion--on" : "house-mansion--off",
           ].join(" ")}
         >
@@ -134,17 +134,17 @@ export function HouseLightsScene() {
           />
         </div>
 
-        <div className="relative z-20 w-full max-w-[210px] self-start sm:max-w-[240px]">
+        <div className="relative z-20 -mt-16 w-full max-w-[210px] self-start sm:-mt-20 sm:max-w-[240px]">
           <img
             src="/marketing/dail-pad.png"
             alt="Prepaid electricity dial pad"
-            className="relative z-0 h-auto w-full select-none"
+            className="relative z-0 h-auto w-full select-none drop-shadow-[0_12px_28px_rgba(0,0,0,0.55)]"
             draggable={false}
           />
           <div
             className="pointer-events-none absolute z-10 flex flex-col items-center justify-center"
             style={{
-              left: "9.5%",
+              left: "calc(9.5% + 10px)",
               top: "10.5%",
               width: "39%",
               height: "20%",
