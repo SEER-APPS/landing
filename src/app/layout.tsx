@@ -1,11 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins } from "next/font/google";
+import { Poppins, VT323 } from "next/font/google";
 import "./globals.css";
 
 const poppins = Poppins({
   variable: "--font-sans",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+const meterMatrix = VT323({
+  variable: "--font-meter",
+  subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
@@ -37,7 +44,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${poppins.variable} h-full antialiased`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${poppins.variable} ${meterMatrix.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>

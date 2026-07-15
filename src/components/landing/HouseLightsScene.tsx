@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 
 const TOKEN = "84729156304821736590";
+const PURCHASE_AMOUNT = "GHS 100";
 const DIGIT_MS = 90;
 const COMPLETE_HOLD_MS = 1000;
-const GOOD_HOLD_MS = 700;
+const GOOD_HOLD_MS = 1600;
 const LIGHTS_ON_MS = 3400;
 const POWER_OFF_TO_LIGHTS_OFF_MS = 200;
 const RESTART_PAUSE_MS = 600;
@@ -94,12 +95,14 @@ export function HouseLightsScene() {
     };
   }, []);
 
-  const displayText =
+  const displayLines =
     phase === "powerOff"
-      ? "power off"
+      ? ["power off"]
       : phase === "good" || phase === "powered"
-        ? "good"
-        : formatToken(TOKEN.slice(0, typedCount));
+        ? ["good", PURCHASE_AMOUNT]
+        : [formatToken(TOKEN.slice(0, typedCount))];
+
+  const isStatusMessage = displayLines.length > 1 || phase === "powerOff";
 
   return (
     <div
@@ -117,8 +120,8 @@ export function HouseLightsScene() {
           ].join(" ")}
         >
           <img
-            src="/house.png"
-            alt="Grand mansion at night"
+            src="/marketing/house-23.png"
+            alt="Modern house at dusk with architectural lighting"
             className="h-auto w-full select-none"
             draggable={false}
           />
@@ -131,33 +134,36 @@ export function HouseLightsScene() {
           />
         </div>
 
-        <div className="relative w-full max-w-[220px] self-start sm:max-w-[250px]">
+        <div className="relative w-full max-w-[210px] self-start sm:max-w-[240px]">
           <img
-            src="/meter-input.png"
-            alt="Prepaid electricity meter keypad"
+            src="/marketing/dail-pad.png"
+            alt="Prepaid electricity dial pad"
             className="h-auto w-full select-none"
             draggable={false}
           />
           <div
-            className="pointer-events-none absolute flex items-center justify-center overflow-hidden bg-transparent"
+            className="pointer-events-none absolute flex flex-col items-center justify-center overflow-hidden bg-transparent"
             style={{
-              left: "8.2%",
-              top: "10.5%",
-              width: "45.5%",
-              height: "15.5%",
+              left: "10%",
+              top: "11.5%",
+              width: "38%",
+              height: "17%",
             }}
             aria-live="polite"
           >
-            <span
-              className={[
-                "whitespace-nowrap px-0.5 text-center font-mono leading-none tracking-tight text-[#1a1f1a]",
-                displayText === "good" || displayText === "power off"
-                  ? "text-[10px] font-semibold sm:text-[11px]"
-                  : "text-[6.5px] sm:text-[7px]",
-              ].join(" ")}
-            >
-              {displayText}
-            </span>
+            {displayLines.map((line) => (
+              <span
+                key={`${phase}-${line}`}
+                className={[
+                  "meter-lcd-text whitespace-nowrap px-0.5 text-center leading-none tracking-wide text-[#1a2418]",
+                  isStatusMessage
+                    ? "text-[9px] sm:text-[10px]"
+                    : "text-[5.5px] sm:text-[6px]",
+                ].join(" ")}
+              >
+                {line}
+              </span>
+            ))}
           </div>
         </div>
       </div>
