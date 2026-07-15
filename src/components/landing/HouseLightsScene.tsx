@@ -134,20 +134,20 @@ export function HouseLightsScene() {
           />
         </div>
 
-        <div className="relative w-full max-w-[210px] self-start sm:max-w-[240px]">
+        <div className="relative z-20 w-full max-w-[210px] self-start sm:max-w-[240px]">
           <img
             src="/marketing/dail-pad.png"
             alt="Prepaid electricity dial pad"
-            className="h-auto w-full select-none"
+            className="relative z-0 h-auto w-full select-none"
             draggable={false}
           />
           <div
-            className="pointer-events-none absolute flex flex-col items-center justify-start overflow-hidden bg-transparent pt-[22%]"
+            className="pointer-events-none absolute z-10 flex flex-col items-center justify-center"
             style={{
-              left: "10%",
-              top: "11.5%",
-              width: "38%",
-              height: "17%",
+              left: "9.5%",
+              top: "10.5%",
+              width: "39%",
+              height: "20%",
             }}
             aria-live="polite"
           >
@@ -155,13 +155,13 @@ export function HouseLightsScene() {
               <span
                 key={`${phase}-${line}`}
                 className={[
-                  "meter-lcd-text whitespace-nowrap px-0.5 text-center leading-none tracking-wide text-[#1a2418]",
+                  "meter-lcd-text block whitespace-nowrap px-0.5 text-center leading-tight tracking-wide text-[#121812]",
                   isStatusMessage
-                    ? "text-[13px] sm:text-[15px]"
-                    : "text-[8px] sm:text-[9px]",
+                    ? "text-[12px] sm:text-[14px]"
+                    : "text-[7.5px] sm:text-[8.5px]",
                 ].join(" ")}
               >
-                {line}
+                {line.length > 0 ? line : "\u00a0"}
               </span>
             ))}
           </div>
