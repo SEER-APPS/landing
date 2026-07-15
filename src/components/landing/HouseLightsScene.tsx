@@ -157,8 +157,8 @@ export function HouseLightsScene() {
                 className={[
                   "meter-lcd-text block whitespace-nowrap px-0.5 text-center leading-tight tracking-wide text-[#121812]",
                   isStatusMessage
-                    ? "text-[12px] sm:text-[14px]"
-                    : "text-[7.5px] sm:text-[8.5px]",
+                    ? "text-[15px] sm:text-[17px]"
+                    : "text-[9px] sm:text-[10.5px]",
                 ].join(" ")}
               >
                 {line.length > 0 ? line : "\u00a0"}
