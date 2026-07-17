@@ -9,6 +9,7 @@ export function SiteHeader() {
   const items = [
     { href: "/download", label: "Download" },
     { href: "/services", label: "Services" },
+    { href: "/protection", label: "Protection" },
     { href: "/security", label: "Security" },
     { href: "/contact", label: "Contact" },
   ];

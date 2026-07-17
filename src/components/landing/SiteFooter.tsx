@@ -136,6 +136,11 @@ export function SiteFooter() {
             <h2 className="text-sm font-semibold text-foreground">Support</h2>
             <ul className="mt-3 flex flex-col gap-2">
               <li>
+                <Link href="/protection" className={footerLinkClass}>
+                  Protection
+                </Link>
+              </li>
+              <li>
                 <Link href="/security" className={footerLinkClass}>
                   Security
                 </Link>
