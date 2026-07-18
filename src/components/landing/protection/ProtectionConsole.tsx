@@ -92,7 +92,14 @@ export function ProtectionConsole({
       setIsProcessing(true);
       setError(null);
       try {
-        setResults(await classifyAudio(samples, models));
+        const nextResults = await classifyAudio(samples, models);
+        setResults(nextResults);
+        if (
+          nextResults.length > 0 &&
+          nextResults.every((result) => Boolean(result.error))
+        ) {
+          setError("Detection unavailable");
+        }
       } catch (caughtError) {
         console.error("Threat detection failed", caughtError);
         setError("Detection unavailable");
@@ -428,11 +435,17 @@ function ResultCard({
       )}
       <div className="flex items-end justify-between gap-3">
         <p className="text-2xl font-semibold tracking-[-0.03em]">
-          {result.isThreat ? "Threat detected" : "No threat"}
+          {result.error
+            ? result.error
+            : result.isThreat
+              ? "Threat detected"
+              : "No threat"}
         </p>
-        <p className="shrink-0 text-lg font-medium opacity-55">
-          {Math.round(result.confidence * 100)}%
-        </p>
+        {!result.error && (
+          <p className="shrink-0 text-lg font-medium opacity-55">
+            {Math.round(result.confidence * 100)}%
+          </p>
+        )}
       </div>
     </div>
   );

@@ -13,17 +13,44 @@ export type ThreatResult = {
   modelName: string;
   isThreat: boolean;
   confidence: number;
+  error?: string;
+};
+
+type OrtModule = typeof Ort & {
+  default?: typeof Ort;
 };
 
 let runtimePromise: Promise<typeof Ort> | null = null;
 const sessionPromises = new Map<string, Promise<Ort.InferenceSession>>();
 
+function assetUrl(pathname: string): string {
+  if (typeof window === "undefined") {
+    return pathname;
+  }
+  return new URL(pathname, window.location.origin).href;
+}
+
 async function getRuntime(): Promise<typeof Ort> {
   if (!runtimePromise) {
-    runtimePromise = import("onnxruntime-web").then((runtime) => {
+    runtimePromise = (async () => {
+      // Load the browser build from /public so Next/Turbopack does not rewrite WASM paths.
+      const moduleUrl = assetUrl("/onnxruntime/ort.wasm.min.mjs");
+      const loaded = (await import(
+        /* webpackIgnore: true */ moduleUrl
+      )) as OrtModule;
+      const runtime = (loaded.default ?? loaded) as typeof Ort;
+
       runtime.env.wasm.numThreads = 1;
-      runtime.env.wasm.wasmPaths = "/onnxruntime/";
+      runtime.env.wasm.proxy = false;
+      runtime.env.wasm.wasmPaths = {
+        wasm: assetUrl("/onnxruntime/ort-wasm-simd-threaded.wasm"),
+        mjs: assetUrl("/onnxruntime/ort-wasm-simd-threaded.mjs"),
+      };
+
       return runtime;
+    })().catch((error: unknown) => {
+      runtimePromise = null;
+      throw error;
     });
   }
 
@@ -38,12 +65,18 @@ async function getSession(
     return existingSession;
   }
 
-  const sessionPromise = getRuntime().then((runtime) =>
-    runtime.InferenceSession.create(model.path, {
-      executionProviders: ["wasm"],
-      graphOptimizationLevel: "all",
-    }),
-  );
+  const sessionPromise = getRuntime()
+    .then((runtime) =>
+      runtime.InferenceSession.create(assetUrl(model.path), {
+        executionProviders: ["wasm"],
+        graphOptimizationLevel: "all",
+      }),
+    )
+    .catch((error: unknown) => {
+      sessionPromises.delete(model.path);
+      throw error;
+    });
+
   sessionPromises.set(model.path, sessionPromise);
   return sessionPromise;
 }
@@ -53,32 +86,60 @@ export async function classifyAudio(
   models: ThreatModelDefinition[],
 ): Promise<ThreatResult[]> {
   const windows = createWindows(samples);
+  if (windows.length === 0) {
+    return models.map((model) => ({
+      modelName: model.name,
+      isThreat: false,
+      confidence: 0,
+      error: "Audio too short",
+    }));
+  }
 
   return Promise.all(
     models.map(async (model) => {
-      const session = await getSession(model);
-      const runtime = await getRuntime();
-      let highestConfidence = 0;
+      try {
+        const session = await getSession(model);
+        const runtime = await getRuntime();
+        let highestConfidence = 0;
 
-      for (const windowSamples of windows) {
-        const input = new runtime.Tensor(
-          "float32",
-          windowSamples,
-          [1, THREAT_WINDOW_SAMPLES],
-        );
-        const outputs = await session.run({ audio: input });
-        const logits = outputs.logits ?? outputs[session.outputNames[0]];
-        const values = Array.from(logits.data as Float32Array);
-        const confidence = threatProbability(values);
-        highestConfidence = Math.max(highestConfidence, confidence);
-        input.dispose();
+        for (const windowSamples of windows) {
+          const input = new runtime.Tensor(
+            "float32",
+            windowSamples,
+            [1, THREAT_WINDOW_SAMPLES],
+          );
+          try {
+            const outputs = await session.run({ audio: input });
+            const logits = outputs.logits ?? outputs[session.outputNames[0]];
+            if (!logits?.data) {
+              throw new Error("Empty model output");
+            }
+            const values = Array.from(logits.data as Float32Array);
+            highestConfidence = Math.max(
+              highestConfidence,
+              threatProbability(values),
+            );
+          } finally {
+            if (typeof input.dispose === "function") {
+              input.dispose();
+            }
+          }
+        }
+
+        return {
+          modelName: model.name,
+          isThreat: highestConfidence >= model.threshold,
+          confidence: highestConfidence,
+        };
+      } catch (caughtError) {
+        console.error(`Threat detection failed for ${model.name}`, caughtError);
+        return {
+          modelName: model.name,
+          isThreat: false,
+          confidence: 0,
+          error: "Detection unavailable",
+        };
       }
-
-      return {
-        modelName: model.name,
-        isThreat: highestConfidence >= model.threshold,
-        confidence: highestConfidence,
-      };
     }),
   );
 }
