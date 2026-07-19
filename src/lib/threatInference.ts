@@ -16,6 +16,23 @@ export type ThreatResult = {
   error?: string;
 };
 
+export type WindowModelScore = {
+  modelName: string;
+  confidence: number;
+  isThreat: boolean;
+  error?: string;
+};
+
+export type WindowAnalysis = {
+  startSec: number;
+  scores: WindowModelScore[];
+};
+
+export type ClassificationReport = {
+  summary: ThreatResult[];
+  windows: WindowAnalysis[];
+};
+
 type OrtModule = typeof Ort & {
   default?: typeof Ort;
 };
@@ -84,23 +101,24 @@ async function getSession(
 export async function classifyAudio(
   samples: Float32Array,
   models: ThreatModelDefinition[],
-): Promise<ThreatResult[]> {
+): Promise<ClassificationReport> {
   const windows = createWindows(samples);
   if (windows.length === 0) {
-    return models.map((model) => ({
+    const summary = models.map((model) => ({
       modelName: model.name,
       isThreat: false,
       confidence: 0,
       error: "Audio too short",
     }));
+    return { summary, windows: [] };
   }
 
-  return Promise.all(
+  const perModelWindowScores = await Promise.all(
     models.map(async (model) => {
       try {
         const session = await getSession(model);
         const runtime = await getRuntime();
-        let highestConfidence = 0;
+        const windowScores: number[] = [];
 
         for (const windowSamples of windows) {
           const input = new runtime.Tensor(
@@ -115,10 +133,7 @@ export async function classifyAudio(
               throw new Error("Empty model output");
             }
             const values = Array.from(logits.data as Float32Array);
-            highestConfidence = Math.max(
-              highestConfidence,
-              threatProbability(values),
-            );
+            windowScores.push(threatProbability(values));
           } finally {
             if (typeof input.dispose === "function") {
               input.dispose();
@@ -126,22 +141,51 @@ export async function classifyAudio(
           }
         }
 
-        return {
-          modelName: model.name,
-          isThreat: highestConfidence >= model.threshold,
-          confidence: highestConfidence,
-        };
+        return { model, windowScores, error: undefined as string | undefined };
       } catch (caughtError) {
         console.error(`Threat detection failed for ${model.name}`, caughtError);
         return {
-          modelName: model.name,
-          isThreat: false,
-          confidence: 0,
+          model,
+          windowScores: windows.map(() => 0),
           error: "Detection unavailable",
         };
       }
     }),
   );
+
+  const windowAnalyses: WindowAnalysis[] = windows.map((_, windowIndex) => ({
+    startSec: windowIndex,
+    scores: perModelWindowScores.map(({ model, windowScores, error }) => {
+      const confidence = windowScores[windowIndex] ?? 0;
+      return {
+        modelName: model.name,
+        confidence,
+        isThreat: !error && confidence >= model.threshold,
+        error,
+      };
+    }),
+  }));
+
+  const summary: ThreatResult[] = perModelWindowScores.map(
+    ({ model, windowScores, error }) => {
+      if (error) {
+        return {
+          modelName: model.name,
+          isThreat: false,
+          confidence: 0,
+          error,
+        };
+      }
+      const confidence = Math.max(0, ...windowScores);
+      return {
+        modelName: model.name,
+        isThreat: confidence >= model.threshold,
+        confidence,
+      };
+    },
+  );
+
+  return { summary, windows: windowAnalyses };
 }
 
 export function downmixAudioBuffer(audioBuffer: AudioBuffer): Float32Array {
