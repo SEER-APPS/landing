@@ -280,7 +280,7 @@ export function ProtectionConsole({
         </div>
       </div>
 
-      <div className="grid flex-1 gap-5 lg:grid-cols-[1.3fr_0.7fr]">
+      <div className="grid flex-1 gap-5 lg:grid-cols-[1.3fr_0.7fr] lg:items-start">
         <div className="flex min-h-[26rem] flex-col items-center justify-center rounded-[2rem] border border-border bg-surface p-6 sm:p-10">
           {mode === "live" ? (
             <LivePanel
@@ -303,7 +303,7 @@ export function ProtectionConsole({
           )}
         </div>
 
-        <div className="flex min-h-60 flex-col rounded-[2rem] border border-border bg-foreground p-6 text-background sm:p-8">
+        <div className="flex max-h-[min(75vh,56rem)] min-h-[26rem] flex-col overflow-hidden rounded-[2rem] border border-border bg-foreground p-6 text-background sm:p-8">
           {panelView === "summary" ? (
             <SummaryPanel
               error={error}
@@ -391,8 +391,8 @@ function SummaryPanel({
   onViewDetails: () => void;
 }) {
   return (
-    <>
-      <div className="flex items-center justify-between">
+    <div className="flex h-full min-h-0 flex-1 flex-col">
+      <div className="flex shrink-0 items-center justify-between">
         <span className="text-sm font-medium opacity-65">Result</span>
         <span
           className={`h-2.5 w-2.5 rounded-full ${
@@ -400,7 +400,7 @@ function SummaryPanel({
           }`}
         />
       </div>
-      <div className="flex flex-1 flex-col justify-center gap-4 py-8">
+      <div className="flex min-h-0 flex-1 flex-col justify-center gap-4 py-8">
         {isProcessing && results.length === 0 ? (
           <div className="h-2 w-full overflow-hidden rounded-full bg-background/15">
             <div className="h-full w-1/2 animate-pulse rounded-full bg-brand" />
@@ -424,14 +424,14 @@ function SummaryPanel({
       {hasDetails && (
         <button
           type="button"
-          className="mt-auto inline-flex min-h-11 items-center justify-between gap-3 rounded-xl bg-background/10 px-4 text-sm font-semibold transition-colors hover:bg-background/15"
+          className="mt-auto inline-flex min-h-11 shrink-0 items-center justify-between gap-3 rounded-xl bg-background/10 px-4 text-sm font-semibold transition-colors hover:bg-background/15"
           onClick={onViewDetails}
         >
           <span>View details</span>
           <ChevronIcon direction="right" />
         </button>
       )}
-    </>
+    </div>
   );
 }
 
@@ -447,8 +447,8 @@ function DetailsPanel({
   onCompare: () => void;
 }) {
   return (
-    <div className="flex h-full min-h-0 flex-col">
-      <div className="mb-5 flex items-center justify-between gap-3">
+    <div className="flex h-full min-h-0 flex-1 flex-col">
+      <div className="mb-5 flex shrink-0 items-center justify-between gap-3">
         <CircleIconButton label="Back" onClick={onBack}>
           <ChevronIcon direction="left" />
         </CircleIconButton>
@@ -464,7 +464,7 @@ function DetailsPanel({
         )}
       </div>
 
-      <div className="min-h-0 flex-1 space-y-3 overflow-y-auto pr-1">
+      <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain pr-1 [scrollbar-gutter:stable]">
         {detections.length === 0 ? (
           <p className="text-2xl font-semibold tracking-tight opacity-35">
             No detections
@@ -542,14 +542,14 @@ function ComparePanel({
   }, [detections, models]);
 
   return (
-    <div className="flex h-full min-h-0 flex-col">
-      <div className="mb-5">
+    <div className="flex h-full min-h-0 flex-1 flex-col">
+      <div className="mb-5 shrink-0">
         <CircleIconButton label="Back" onClick={onBack}>
           <ChevronIcon direction="left" />
         </CircleIconButton>
       </div>
 
-      <div className="min-h-0 flex-1 space-y-5 overflow-y-auto pr-1">
+      <div className="min-h-0 flex-1 space-y-5 overflow-y-auto overscroll-contain pr-1 [scrollbar-gutter:stable]">
         {chartRows.length === 0 ? (
           <p className="text-2xl font-semibold tracking-tight opacity-35">
             No detections
