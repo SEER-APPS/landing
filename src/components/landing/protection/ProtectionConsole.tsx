@@ -20,17 +20,17 @@ import {
   type WindowAnalysis,
 } from "@/lib/threatInference";
 
+/** Matches `operating_threshold_fpr15` in public/models/seer-1.meta.json. */
 const primaryModel: ThreatModelDefinition = {
   name: "Seer 1",
   path: "/models/seer-1.onnx",
-  // RunPod fine export (budget pack); tighten after full-data gate pass.
-  threshold: 0.55,
+  threshold: 0.97,
 };
 
 const comparisonModel: ThreatModelDefinition = {
   name: "Seer 2",
   path: "/models/seer-2.onnx",
-  threshold: 0.48,
+  threshold: 0.97,
 };
 
 type Mode = "live" | "file";
@@ -358,7 +358,8 @@ function windowsToDetections(
 
     const peak = Math.max(...scores.map((score) => score.confidence));
     const anyThreat = scores.some((score) => score.isThreat);
-    if (!anyThreat && peak < 0.45) {
+    // Below calibrated FPR15 band — ignore as noise for the timeline.
+    if (!anyThreat && peak < 0.9) {
       return [];
     }
 
