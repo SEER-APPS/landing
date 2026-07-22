@@ -341,36 +341,36 @@ function windowsToDetections(
   windows: WindowAnalysis[],
   offsetSec: number,
 ): DetectionEvent[] {
-  return windows
-    .map((windowAnalysis) => {
-      const scores = windowAnalysis.scores
-        .filter((score) => !score.error)
-        .map((score) => ({
-          modelName: score.modelName,
-          confidence: score.confidence,
-          isThreat: score.isThreat,
-          label: score.label,
-          threatType: score.threatType,
-          threatCategory: score.threatCategory,
-        }));
-      if (scores.length === 0) {
-        return null;
-      }
+  return windows.flatMap((windowAnalysis) => {
+    const scores = windowAnalysis.scores
+      .filter((score) => !score.error)
+      .map((score) => ({
+        modelName: score.modelName,
+        confidence: score.confidence,
+        isThreat: score.isThreat,
+        label: score.label,
+        threatType: score.threatType,
+        threatCategory: score.threatCategory,
+      }));
+    if (scores.length === 0) {
+      return [];
+    }
 
-      const peak = Math.max(...scores.map((score) => score.confidence));
-      const anyThreat = scores.some((score) => score.isThreat);
-      if (!anyThreat && peak < 0.45) {
-        return null;
-      }
+    const peak = Math.max(...scores.map((score) => score.confidence));
+    const anyThreat = scores.some((score) => score.isThreat);
+    if (!anyThreat && peak < 0.45) {
+      return [];
+    }
 
-      return {
+    return [
+      {
         id: `${offsetSec + windowAnalysis.startSec}-${peak.toFixed(3)}`,
         startSec: offsetSec + windowAnalysis.startSec,
         label: labelForScores(scores),
         scores,
-      } satisfies DetectionEvent;
-    })
-    .filter((event): event is DetectionEvent => event !== null);
+      } satisfies DetectionEvent,
+    ];
+  });
 }
 
 function labelForScores(
