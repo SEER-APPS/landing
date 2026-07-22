@@ -1,5 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import { Poppins, VT323 } from "next/font/google";
+
+import {
+  DEFAULT_OG_IMAGE_PATH,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  getSiteUrl,
+} from "@/lib/site-metadata";
+
 import "./globals.css";
 
 const poppins = Poppins({
@@ -26,13 +34,37 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: {
-    default: "Seer",
-    template: "%s | Seer",
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
   },
-  description: "Secure messaging and everyday services in one app.",
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
   icons: {
     icon: [{ url: "/logo.png", type: "image/png" }],
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: "/",
+    images: [
+      {
+        url: DEFAULT_OG_IMAGE_PATH,
+        width: 1200,
+        height: 630,
+        alt: SITE_NAME,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE_PATH],
   },
 };
 

@@ -1,5 +1,12 @@
 import type * as Ort from "onnxruntime-web";
 
+import {
+  coarseCategoryForThreatType,
+  displayLabelForThreatType,
+  FINE_CLASS_NAMES,
+  type CoarseThreatCategory,
+} from "./threatTaxonomy";
+
 export const THREAT_SAMPLE_RATE = 16_000;
 export const THREAT_WINDOW_SAMPLES = 16_000;
 
@@ -13,6 +20,9 @@ export type ThreatResult = {
   modelName: string;
   isThreat: boolean;
   confidence: number;
+  threatType?: string | null;
+  threatCategory?: CoarseThreatCategory | null;
+  label?: string;
   error?: string;
 };
 
@@ -20,6 +30,9 @@ export type WindowModelScore = {
   modelName: string;
   confidence: number;
   isThreat: boolean;
+  threatType?: string | null;
+  threatCategory?: CoarseThreatCategory | null;
+  label?: string;
   error?: string;
 };
 
@@ -31,6 +44,14 @@ export type WindowAnalysis = {
 export type ClassificationReport = {
   summary: ThreatResult[];
   windows: WindowAnalysis[];
+};
+
+type WindowScoreDetail = {
+  confidence: number;
+  isThreat: boolean;
+  threatType: string | null;
+  threatCategory: CoarseThreatCategory | null;
+  label: string;
 };
 
 type OrtModule = typeof Ort & {
@@ -118,7 +139,7 @@ export async function classifyAudio(
       try {
         const session = await getSession(model);
         const runtime = await getRuntime();
-        const windowScores: number[] = [];
+        const windowDetails: WindowScoreDetail[] = [];
 
         for (const windowSamples of windows) {
           const input = new runtime.Tensor(
@@ -133,7 +154,7 @@ export async function classifyAudio(
               throw new Error("Empty model output");
             }
             const values = Array.from(logits.data as Float32Array);
-            windowScores.push(threatProbability(values));
+            windowDetails.push(classifyLogits(values, model.threshold));
           } finally {
             if (typeof input.dispose === "function") {
               input.dispose();
@@ -141,12 +162,24 @@ export async function classifyAudio(
           }
         }
 
-        return { model, windowScores, error: undefined as string | undefined };
+        return {
+          model,
+          windowDetails,
+          error: undefined as string | undefined,
+        };
       } catch (caughtError) {
         console.error(`Threat detection failed for ${model.name}`, caughtError);
         return {
           model,
-          windowScores: windows.map(() => 0),
+          windowDetails: windows.map(
+            (): WindowScoreDetail => ({
+              confidence: 0,
+              isThreat: false,
+              threatType: null,
+              threatCategory: null,
+              label: "No threat",
+            }),
+          ),
           error: "Detection unavailable",
         };
       }
@@ -155,19 +188,22 @@ export async function classifyAudio(
 
   const windowAnalyses: WindowAnalysis[] = windows.map((_, windowIndex) => ({
     startSec: windowIndex,
-    scores: perModelWindowScores.map(({ model, windowScores, error }) => {
-      const confidence = windowScores[windowIndex] ?? 0;
+    scores: perModelWindowScores.map(({ model, windowDetails, error }) => {
+      const detail = windowDetails[windowIndex]!;
       return {
         modelName: model.name,
-        confidence,
-        isThreat: !error && confidence >= model.threshold,
+        confidence: detail.confidence,
+        isThreat: !error && detail.isThreat,
+        threatType: detail.threatType,
+        threatCategory: detail.threatCategory,
+        label: detail.label,
         error,
       };
     }),
   }));
 
   const summary: ThreatResult[] = perModelWindowScores.map(
-    ({ model, windowScores, error }) => {
+    ({ model, windowDetails, error }) => {
       if (error) {
         return {
           modelName: model.name,
@@ -176,11 +212,21 @@ export async function classifyAudio(
           error,
         };
       }
-      const confidence = Math.max(0, ...windowScores);
+      let best = windowDetails[0]!;
+      for (const detail of windowDetails) {
+        if (detail.confidence > best.confidence) {
+          best = detail;
+        }
+      }
       return {
         modelName: model.name,
-        isThreat: confidence >= model.threshold,
-        confidence,
+        isThreat: best.isThreat,
+        confidence: best.confidence,
+        threatType: best.threatType,
+        threatCategory: best.threatCategory,
+        label: best.isThreat
+          ? `${best.label} detected`
+          : "No threat",
       };
     },
   );
@@ -236,8 +282,8 @@ export function resampleLinear(
     const upperIndex = Math.min(lowerIndex + 1, samples.length - 1);
     const fraction = sourcePosition - lowerIndex;
     output[outputIndex] =
-      samples[lowerIndex] * (1 - fraction) +
-      samples[upperIndex] * fraction;
+      samples[lowerIndex]! * (1 - fraction) +
+      samples[upperIndex]! * fraction;
   }
 
   return output;
@@ -275,13 +321,79 @@ function createWindows(samples: Float32Array): Float32Array[] {
   return windows;
 }
 
-function threatProbability(logits: number[]): number {
+function softmax(logits: number[]): number[] {
+  const highest = Math.max(...logits);
+  const exps = logits.map((logit) => Math.exp(logit - highest));
+  const sum = exps.reduce((total, value) => total + value, 0);
+  return exps.map((value) => value / sum);
+}
+
+/** Binary or fine multiclass logits → threat decision + labels. */
+export function classifyLogits(
+  logits: number[],
+  threshold: number,
+): WindowScoreDetail {
   if (logits.length < 2) {
-    return 1 / (1 + Math.exp(-logits[0]));
+    const confidence = 1 / (1 + Math.exp(-logits[0]!));
+    const isThreat = confidence >= threshold;
+    return {
+      confidence,
+      isThreat,
+      threatType: isThreat ? "other" : null,
+      threatCategory: isThreat ? "other" : null,
+      label: isThreat ? displayLabelForThreatType("other") : "No threat",
+    };
   }
 
-  const highestLogit = Math.max(logits[0], logits[1]);
-  const safeScore = Math.exp(logits[0] - highestLogit);
-  const threatScore = Math.exp(logits[1] - highestLogit);
-  return threatScore / (safeScore + threatScore);
+  // Legacy binary: [no_threat, threat]
+  if (logits.length === 2) {
+    const probs = softmax([logits[0]!, logits[1]!]);
+    const confidence = probs[1]!;
+    const isThreat = confidence >= threshold;
+    return {
+      confidence,
+      isThreat,
+      threatType: isThreat ? "other" : null,
+      threatCategory: isThreat ? "other" : null,
+      label: isThreat ? displayLabelForThreatType("other") : "No threat",
+    };
+  }
+
+  const classCount = Math.min(logits.length, FINE_CLASS_NAMES.length);
+  const classNames = FINE_CLASS_NAMES.slice(0, classCount);
+  const probs = softmax(Array.from(logits.slice(0, classCount)));
+  let bestIndex = 0;
+  let bestProb = probs[0]!;
+  for (let index = 1; index < probs.length; index++) {
+    if (probs[index]! > bestProb) {
+      bestProb = probs[index]!;
+      bestIndex = index;
+    }
+  }
+
+  const predicted = classNames[bestIndex]!;
+  const threatMass = probs
+    .slice(1)
+    .reduce((total, value) => total + value, 0);
+  const confidence = predicted === "no_threat" ? threatMass : bestProb;
+  const isThreat = predicted !== "no_threat" && confidence >= threshold;
+  const threatType = isThreat ? predicted : null;
+  const threatCategory = threatType
+    ? coarseCategoryForThreatType(threatType)
+    : null;
+
+  return {
+    confidence,
+    isThreat,
+    threatType,
+    threatCategory,
+    label: isThreat
+      ? displayLabelForThreatType(threatType!)
+      : "No threat",
+  };
+}
+
+/** @deprecated Prefer classifyLogits — kept for callers that only need P(threat). */
+export function threatProbability(logits: number[]): number {
+  return classifyLogits(logits, 0).confidence;
 }

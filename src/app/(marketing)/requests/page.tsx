@@ -1,6 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { requestCategories } from "@/constants/requests";
+import { pageMetadata } from "@/lib/site-metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Requests",
+  description:
+    "Submit a support or account request to the Seer team. We will respond by email.",
+  path: "/requests",
+});
 
 const cardClass =
   "block rounded-2xl border border-border bg-surface p-6 transition-colors hover:border-foreground/20 hover:bg-brand-soft/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";

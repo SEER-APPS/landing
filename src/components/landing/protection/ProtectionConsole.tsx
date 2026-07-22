@@ -23,14 +23,14 @@ import {
 const primaryModel: ThreatModelDefinition = {
   name: "Seer 1",
   path: "/models/seer-1.onnx",
-  // Slightly below the ship gate so landing reacts sooner while staying stricter than Seer 2.
-  threshold: 0.7,
+  // RunPod fine export (budget pack); tighten after full-data gate pass.
+  threshold: 0.55,
 };
 
 const comparisonModel: ThreatModelDefinition = {
   name: "Seer 2",
   path: "/models/seer-2.onnx",
-  threshold: 0.55,
+  threshold: 0.48,
 };
 
 type Mode = "live" | "file";
@@ -44,6 +44,9 @@ type DetectionEvent = {
     modelName: string;
     confidence: number;
     isThreat: boolean;
+    label?: string;
+    threatType?: string | null;
+    threatCategory?: string | null;
   }>;
 };
 
@@ -346,6 +349,9 @@ function windowsToDetections(
           modelName: score.modelName,
           confidence: score.confidence,
           isThreat: score.isThreat,
+          label: score.label,
+          threatType: score.threatType,
+          threatCategory: score.threatCategory,
         }));
       if (scores.length === 0) {
         return null;
@@ -370,7 +376,14 @@ function windowsToDetections(
 function labelForScores(
   scores: DetectionEvent["scores"],
 ): string {
-  return scores.some((score) => score.isThreat) ? "Threat" : "Elevated";
+  const threatScore = scores.find((score) => score.isThreat && score.label);
+  if (threatScore?.label) {
+    return threatScore.label;
+  }
+  if (scores.some((score) => score.isThreat)) {
+    return "Threat";
+  }
+  return "Elevated";
 }
 
 function SummaryPanel({
@@ -729,13 +742,20 @@ function ResultCard({
         </p>
       )}
       <div className="flex items-end justify-between gap-3">
-        <p className="text-2xl font-semibold tracking-[-0.03em]">
-          {result.error
-            ? result.error
-            : result.isThreat
-              ? "Threat detected"
-              : "No threat"}
-        </p>
+        <div className="min-w-0">
+          <p className="text-2xl font-semibold tracking-[-0.03em]">
+            {result.error
+              ? result.error
+              : result.isThreat
+                ? (result.label ?? "Threat detected")
+                : "No threat"}
+          </p>
+          {result.isThreat && result.threatCategory && !result.error && (
+            <p className="mt-1 text-xs font-semibold uppercase tracking-[0.14em] opacity-45">
+              {result.threatCategory}
+            </p>
+          )}
+        </div>
         {!result.error && (
           <p className="shrink-0 text-lg font-medium opacity-55">
             {Math.round(result.confidence * 100)}%

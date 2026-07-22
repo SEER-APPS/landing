@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { LegalDocument } from "@/components/landing/LegalDocument";
 
-export const metadata: Metadata = {
-  title: "Cookie policy | Seer",
+import { pageMetadata } from "@/lib/site-metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Cookie policy",
   description: "How Seer uses cookies and similar technologies on the web.",
-};
+  path: "/cookies",
+});
 
 export default function CookiesPage() {
   return (

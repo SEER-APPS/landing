@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { LegalDocument } from "@/components/landing/LegalDocument";
 
-export const metadata: Metadata = {
-  title: "Terms and conditions | Seer",
+import { pageMetadata } from "@/lib/site-metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Terms and conditions",
   description: "Rules for using Seer products and services.",
-};
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (

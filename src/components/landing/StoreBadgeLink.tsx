@@ -38,10 +38,11 @@ function GoogleBadgeIcon({ compact }: { compact: boolean }) {
   const size = compact ? 32 : 40;
   return (
     <Image
-      src="/Playstore.png"
+      src="/google-play-mark.svg"
       alt=""
       width={size}
       height={size}
+      unoptimized
       className={compact ? "h-8 w-auto object-contain" : "h-10 w-auto object-contain"}
     />
   );

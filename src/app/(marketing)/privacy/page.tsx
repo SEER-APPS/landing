@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalDocument } from "@/components/landing/LegalDocument";
 
-export const metadata: Metadata = {
-  title: "Privacy policy | Seer",
+import { pageMetadata } from "@/lib/site-metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Privacy policy",
   description: "How Seer collects, uses, and protects your information.",
-};
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (

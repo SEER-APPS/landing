@@ -60,3 +60,30 @@ export const accountRequestOptions: AccountRequestOption[] = [
     description: "Trouble signing in, OTP not arriving, or PIN reset problems.",
   },
 ];
+
+/** Category + slug → shareable title/description for request form pages. */
+export const categoryRequestSlugMeta: Record<
+  string,
+  Record<string, { title: string; description: string }>
+> = {
+  billing: {
+    "payment-issue": {
+      title: "Payment issue",
+      description:
+        "Report a failed payment, missing airtime or bundle, or incorrect charge.",
+    },
+  },
+  technical: {
+    "app-issue": {
+      title: "App issue",
+      description:
+        "Describe crashes, login problems, or features not working as expected.",
+    },
+  },
+  other: {
+    general: {
+      title: "General request",
+      description: "Tell us what you need and we will route it to the right team.",
+    },
+  },
+};

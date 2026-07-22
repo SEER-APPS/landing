@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { APP_STORE_URL, PLAY_STORE_URL } from "@/constants/storeLinks";
 
-export const metadata: Metadata = {
-  title: "Download | Seer",
+import { pageMetadata } from "@/lib/site-metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Download",
   description: "Download Seer for iOS and Android.",
-};
+  path: "/download",
+});
 
 export default function DownloadPage() {
   return (
@@ -61,10 +64,11 @@ export default function DownloadPage() {
           <div className="flex flex-col items-center text-center">
             <div className="flex h-28 w-28 items-center justify-center sm:h-32 sm:w-32">
               <Image
-                src="/Playstore.png"
+                src="/google-play-mark.svg"
                 alt=""
                 width={128}
                 height={128}
+                unoptimized
                 className="h-full w-full object-contain"
               />
             </div>

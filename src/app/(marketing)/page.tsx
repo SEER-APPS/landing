@@ -1,8 +1,17 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { FeatureBand } from "@/components/landing/FeatureBand";
 import { StoreBadgeLink } from "@/components/landing/StoreBadgeLink";
 import { APP_STORE_URL, PLAY_STORE_URL } from "@/constants/storeLinks";
+import { SITE_NAME, pageMetadata } from "@/lib/site-metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: SITE_NAME,
+  description:
+    "Private chats, airtime, data bundles, prepaid services, and smarter everyday communication — in one app.",
+  path: "/",
+});
 
 export default function Home() {
   return (

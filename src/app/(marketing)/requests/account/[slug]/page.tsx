@@ -1,12 +1,43 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { RequestForm } from "@/components/landing/RequestForm";
 import { accountRequestOptions } from "@/constants/requests";
+import { pageMetadata } from "@/lib/site-metadata";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  if (slug === "delete") {
+    return pageMetadata({
+      title: "Delete account",
+      description:
+        "Request permanent deletion of your Seer account and associated data.",
+      path: "/requests/account/delete",
+      noIndex: true,
+    });
+  }
+
+  const option = accountRequestOptions.find((entry) => entry.slug === slug);
+  if (!option) {
+    return pageMetadata({
+      title: "Account request",
+      description: "Submit an account request to the Seer team.",
+      path: "/requests/account",
+      noIndex: true,
+    });
+  }
+
+  return pageMetadata({
+    title: option.title,
+    description: option.description,
+    path: `/requests/account/${option.slug}`,
+  });
+}
 
 export default async function AccountRequestSlugPage({ params }: PageProps) {
   const { slug } = await params;
@@ -14,7 +45,7 @@ export default async function AccountRequestSlugPage({ params }: PageProps) {
     notFound();
   }
 
-  const option = accountRequestOptions.find((o) => o.slug === slug);
+  const option = accountRequestOptions.find((entry) => entry.slug === slug);
   if (!option) {
     notFound();
   }

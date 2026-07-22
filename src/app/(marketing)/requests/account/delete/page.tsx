@@ -1,6 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { RequestForm } from "@/components/landing/RequestForm";
+import { pageMetadata } from "@/lib/site-metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Delete account",
+  description:
+    "Request permanent deletion of your Seer account and associated data.",
+  path: "/requests/account/delete",
+});
 
 export default function DeleteAccountRequestPage() {
   return (

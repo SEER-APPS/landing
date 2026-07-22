@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import {
@@ -6,6 +7,15 @@ import {
 } from "@/components/landing/FeatureBand";
 import { HouseLightsScene } from "@/components/landing/HouseLightsScene";
 import { WaterFlowScene } from "@/components/landing/WaterFlowScene";
+import { pageMetadata } from "@/lib/site-metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Services",
+  description:
+    "Secure messaging, airtime, data bundles, electricity, water, and TV payments — all in Seer.",
+  path: "/services",
+  imagePath: "/marketing/services-everything.jpg",
+});
 
 type ServiceBlock = {
   id: string;

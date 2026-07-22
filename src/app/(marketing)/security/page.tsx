@@ -6,11 +6,15 @@ import { SecurityHero } from "@/components/landing/security/SecurityHero";
 import { SecurityPillars } from "@/components/landing/security/SecurityPillars";
 import { resolveSecurityPageContent } from "@/content/securityPageContent";
 
-export const metadata: Metadata = {
-  title: "Security | Seer",
+import { pageMetadata } from "@/lib/site-metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Security",
   description:
     "Learn how Seer protects private chats, media, and shared moments with end-to-end security.",
-};
+  path: "/security",
+  imagePath: "/security-hero.jpg",
+});
 
 type SecurityPageProps = {
   searchParams: Promise<{

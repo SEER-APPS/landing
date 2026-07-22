@@ -1,6 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { accountRequestOptions } from "@/constants/requests";
+import { pageMetadata } from "@/lib/site-metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Account requests",
+  description:
+    "Delete your account, export data, correct your profile, or get help with login issues.",
+  path: "/requests/account",
+});
 
 const cardClass =
   "block rounded-2xl border border-border bg-surface p-5 transition-colors hover:border-foreground/20 hover:bg-brand-soft/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";

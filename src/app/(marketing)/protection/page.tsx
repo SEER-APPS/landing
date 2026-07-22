@@ -2,10 +2,14 @@ import type { Metadata } from "next";
 
 import { ProtectionConsole } from "@/components/landing/protection/ProtectionConsole";
 
-export const metadata: Metadata = {
-  title: "Protection | Seer",
+import { pageMetadata } from "@/lib/site-metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Protection",
   description: "Detect threats from live or recorded audio with Seer.",
-};
+  path: "/protection",
+  imagePath: "/marketing/protection-active.jpg",
+});
 
 export const dynamic = "force-dynamic";
 

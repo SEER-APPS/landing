@@ -1,33 +1,36 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { RequestForm } from "@/components/landing/RequestForm";
-import { requestCategories } from "@/constants/requests";
-
-const slugMeta: Record<string, Record<string, { title: string; description: string }>> = {
-  billing: {
-    "payment-issue": {
-      title: "Payment issue",
-      description: "Report a failed payment, missing airtime or bundle, or incorrect charge.",
-    },
-  },
-  technical: {
-    "app-issue": {
-      title: "App issue",
-      description: "Describe crashes, login problems, or features not working as expected.",
-    },
-  },
-  other: {
-    general: {
-      title: "General request",
-      description: "Tell us what you need and we will route it to the right team.",
-    },
-  },
-};
+import {
+  categoryRequestSlugMeta,
+  requestCategories,
+} from "@/constants/requests";
+import { pageMetadata } from "@/lib/site-metadata";
 
 type PageProps = {
   params: Promise<{ category: string; slug: string }>;
 };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { category, slug } = await params;
+  const meta = categoryRequestSlugMeta[category]?.[slug];
+  if (!meta) {
+    return pageMetadata({
+      title: "Request",
+      description: "Submit a request to the Seer team.",
+      path: "/requests",
+      noIndex: true,
+    });
+  }
+
+  return pageMetadata({
+    title: meta.title,
+    description: meta.description,
+    path: `/requests/${category}/${slug}`,
+  });
+}
 
 export default async function CategoryRequestPage({ params }: PageProps) {
   const { category, slug } = await params;
@@ -36,8 +39,8 @@ export default async function CategoryRequestPage({ params }: PageProps) {
     notFound();
   }
 
-  const categoryMeta = requestCategories.find((c) => c.id === category);
-  const meta = slugMeta[category]?.[slug];
+  const categoryMeta = requestCategories.find((entry) => entry.id === category);
+  const meta = categoryRequestSlugMeta[category]?.[slug];
   if (!categoryMeta || !meta) {
     notFound();
   }
