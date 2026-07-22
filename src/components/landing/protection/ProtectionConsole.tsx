@@ -24,13 +24,13 @@ import {
 const primaryModel: ThreatModelDefinition = {
   name: "Seer 1",
   path: "/models/seer-1.onnx",
-  threshold: 0.97,
+  threshold: 0.961,
 };
 
 const comparisonModel: ThreatModelDefinition = {
   name: "Seer 2",
   path: "/models/seer-2.onnx",
-  threshold: 0.97,
+  threshold: 0.961,
 };
 
 type Mode = "live" | "file";

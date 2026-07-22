@@ -362,28 +362,25 @@ export function classifyLogits(
   const classCount = Math.min(logits.length, FINE_CLASS_NAMES.length);
   const classNames = FINE_CLASS_NAMES.slice(0, classCount);
   const probs = softmax(Array.from(logits.slice(0, classCount)));
-  let bestIndex = 0;
-  let bestProb = probs[0]!;
-  for (let index = 1; index < probs.length; index++) {
-    if (probs[index]! > bestProb) {
-      bestProb = probs[index]!;
-      bestIndex = index;
+  const threatMass = probs.slice(1).reduce((total, value) => total + value, 0);
+  const isThreat = threatMass >= threshold;
+
+  let bestThreatIndex = 1;
+  let bestThreatProb = probs[1] ?? 0;
+  for (let index = 2; index < probs.length; index++) {
+    if ((probs[index] ?? 0) > bestThreatProb) {
+      bestThreatProb = probs[index]!;
+      bestThreatIndex = index;
     }
   }
 
-  const predicted = classNames[bestIndex]!;
-  const threatMass = probs
-    .slice(1)
-    .reduce((total, value) => total + value, 0);
-  const confidence = predicted === "no_threat" ? threatMass : bestProb;
-  const isThreat = predicted !== "no_threat" && confidence >= threshold;
-  const threatType = isThreat ? predicted : null;
+  const threatType = isThreat ? classNames[bestThreatIndex]! : null;
   const threatCategory = threatType
     ? coarseCategoryForThreatType(threatType)
     : null;
 
   return {
-    confidence,
+    confidence: threatMass,
     isThreat,
     threatType,
     threatCategory,
