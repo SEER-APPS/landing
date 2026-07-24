@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "J9PJ25A537.com.nexlinktechnologies.seermessenger.flutter",
+        "paths": ["/u/*"]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["J9PJ25A537.com.nexlinktechnologies.seermessenger.flutter"]
+  }
+}
