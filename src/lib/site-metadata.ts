@@ -19,7 +19,7 @@ export function getSiteUrl(): string {
     return `https://${vercelProduction.replace(/^https?:\/\//, "")}`;
   }
 
-  return "https://seer.app";
+  return "https://seermessenger.com";
 }
 
 type PageMetadataInput = {

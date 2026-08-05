@@ -82,7 +82,7 @@ export default function OpenGraphImage() {
             letterSpacing: "0.02em",
           }}
         >
-          seer.app
+          seermessenger.com
         </div>
       </div>
     ),
